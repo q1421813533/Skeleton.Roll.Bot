@@ -26,12 +26,12 @@ const EXPUP = require('./level').EXPUP || function () {
 const courtMessage = require('./logs').courtMessage || function () {
 };
 
-const chaSkill = require('../character/chaSkill');
-let testSkill = new chaSkill("猫叫",10);
+const chaData = require('../character/chaData');
+let SelenaData = new chaData("塞莲娜",["生命,hp,16,基础","精力,sp,16,基础","魔力,mp,16,基础","洞察,dc,1,世俗","灵敏,lm,2,世俗","潜行,qx,0,世俗","交际,jj,4,世俗","权威,qw,3,世俗","执念,zn,4,世俗","体质,tz,3,世俗","战斗,zd,4,世俗","学识,xs,2,世俗","技艺,jy,1,世俗","时间,sj,0,超凡","命运,my,4,超凡","空间,kj,0,超凡","心灵,xl,2,超凡","物质,wz,0,超凡","死亡,sw,5,超凡","力能,ln,3,超凡","根源,gy,3,超凡","生命,sm,0,超凡","精魂,jh,0,超凡"]);
 
 TGclient.on('text', async (ctx) => {
     if (ctx.from.is_bot) return;
-    console.log(testSkill.show());
+    console.log(SelenaData.show());
     let inputStr = ctx.text;
     let trigger = "",
         mainMsg = "",
