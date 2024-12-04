@@ -42,7 +42,7 @@ const getNowCha = async function (infoStr) {
 }
 
 async function containStatus(nowCha,infoStr){
-    result = false;
+    let result = false;
 
     let i;
 
@@ -59,7 +59,7 @@ async function containStatus(nowCha,infoStr){
 }
 
 async function containSkill(nowCha,infoStr){
-    result = false;
+    let result = false;
 
     let i;
 
@@ -75,13 +75,14 @@ async function containSkill(nowCha,infoStr){
     return result;
 }
 
-async function adjustAttrValue(nowCha,infoStr,targetType){
-    result = "";
+async function adjustAttrValue(nowCha,infoStr){
+    let result = "";
 
     let tempStr=infoStr.split(" ");
 
     let nowAttr=null;
     let nowAdjust=null;
+    let nowType;
 
     let i;
 
@@ -93,11 +94,15 @@ async function adjustAttrValue(nowCha,infoStr,targetType){
         }
         else
         {
-            if(targetType=="status")
-                nowAttr=nowCha.findStatus(tempStr[i]);
-            else if(targetType=="skill")
+            nowAttr=nowCha.findStatus(tempStr[i]);
+            if(nowAttr!=null)
+                nowType="status";
+            else{
                 nowAttr=nowCha.findSkill(tempStr[i]);
-
+                if(nowAttr!=null)
+                    nowType="skill";
+            }
+            
             if(nowAttr!=null){
                 if(nowAdjust!=null)
                 {
@@ -107,9 +112,9 @@ async function adjustAttrValue(nowCha,infoStr,targetType){
                         nowAttr.value=parseInt(nowAdjust);
                     nowAdjust=null;
                 }
-                if(targetType=="status")
+                if(nowType=="status")
                     result+=nowAttr.name+": ",nowAttr.value+"/"+nowAttr.limit+"\n";
-                else if(targetType=="skill")
+                else if(nowType=="skill")
                     result+=nowAttr.name+": ",nowAttr.value+"\n";
             }
         }
