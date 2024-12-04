@@ -28,10 +28,10 @@ const courtMessage = require('./logs').courtMessage || function () {
 
 const chaSkill = require('../character/chaSkill');
 testSkill = new chaSkill("猫叫",10);
-testSkill.show();
 
 TGclient.on('text', async (ctx) => {
     if (ctx.from.is_bot) return;
+    console.log(testSkill.show());
     let inputStr = ctx.text;
     let trigger = "",
         mainMsg = "",
