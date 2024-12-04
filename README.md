@@ -1,1 +1,1 @@
-稍微修改的HKTRPG机器人，用于Telegram的FATE跑团
+稍微修改的HKTRPG机器人，用于Telegram的FATE房规跑团
