@@ -128,7 +128,7 @@ class chaGroup{
 
     addCha(chaName,chaCode,statusArray,skillArray){
         if((this.findCha(chaCode)==null)&&(this.groupSize<groupSizeLimit)){
-            this.members[groupSize]=new chaData(chaName,chaCode,statusArray,skillArray);
+            this.members[this.groupSize]=new chaData(chaName,chaCode,statusArray,skillArray);
             this.groupSize++;
         }
     }
