@@ -116,7 +116,7 @@ class chaData{
 
     containStatus(infoStr){
         let result = false;
-        let i;
+        let i,j;
 
         if(infoStr.length<2)
             return result;
@@ -136,7 +136,7 @@ class chaData{
 
     containSkill(infoStr){
         let result = false;
-        let i;
+        let i,j;
 
         if(infoStr.length<2)
             return result;
