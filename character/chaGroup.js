@@ -156,7 +156,7 @@ class chaData{
 
         let i;
 
-        for(i=tempStr.length-1;i>=0;i++)
+        for(i=tempStr.length-1;i>=0;i--)
         {
             if(/^-?\d+$/.test(tempStr[i]))
             {
