@@ -97,7 +97,7 @@ class chaData{
         {
             result+=this.skill[i].name+": "+this.skill[i].value;
             nowType=this.skill[i].type;
-            if(i<this.statusNum-1)
+            if(i<this.skillNum-1)
             {
                 nextType=this.skill[i+1].type;
                 if(nowType==nextType)
