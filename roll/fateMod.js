@@ -61,6 +61,7 @@ const rollDiceCommand = async function ({
                 rply.text = nowCha.show();
             else
                 rply.text = "角色不存在。"
+            return rply;
         default: {
             //.4dfm23,m23,m,23
             //＋∎－
