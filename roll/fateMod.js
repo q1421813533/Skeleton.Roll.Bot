@@ -32,6 +32,14 @@ const initialize = function () {
     return variables;
 }
 
+const getNowCha = function (infoStr) {
+    let tempStr=infoStr.split(" ");
+    let chaCode="";
+    if((tempStr.length>=2)&&(tempStr[0].length>1))
+        chaCode=tempStr[0].substring(1,tempStr[0].length);
+    let nowCha=characterGroup.findCha(chaCode);
+    return nowCha;
+}
 const rollDiceCommand = async function ({
     inputStr,
     mainMsg
@@ -81,15 +89,6 @@ const rollDiceCommand = async function ({
             return rply;
         }
     }
-}
-
-function getNowCha(infoStr){
-    let tempStr=infoStr.split(" ");
-    let chaCode="";
-    if((tempStr.length>=2)&&(tempStr[0].length>1))
-        chaCode=tempStr[0].substring(1,tempStr[0].length);
-    let nowCha=characterGroup.findCha(chaCode);
-    return nowCha;
 }
 
 module.exports = {
