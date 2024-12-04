@@ -242,7 +242,15 @@ class chaGroup{
     }
 
     getNowCha(infoStr){
+        let i;
+
+        for(i=0;i<infoStr.length;i++)
+        {
+            console.log(infoStr[i]+":"+infoStr[i].length);        
+        }
+        
         let chaCode=infoStr[0].substring(1,infoStr[0].length);
+         console.log(chaCode);
         let nowCha=this.findCha(chaCode);
         return nowCha;
     }
