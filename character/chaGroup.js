@@ -105,7 +105,7 @@ class chaData{
             if(changeLine==0)
                 result+=",";
             else
-                changeLine=1;
+                changeLine=0;
         }
         return result;
     }
@@ -122,10 +122,8 @@ class chaGroup{
         let i;
         for(i=0;i<this.groupSize;i++)
         {
-            console.log("Search:"+chaCode+"|"+this.members[i].code);
             if(this.members[i].code==chaCode)
             {
-                console.log("Inner:"+this.members[i].show());
                 return this.members[i];
             }
         }
