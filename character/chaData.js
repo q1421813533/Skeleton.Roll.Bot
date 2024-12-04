@@ -12,7 +12,7 @@ class chaSkill{
 class chaData{
     constructor(chaName,skillArray){
         this.name=chaName;
-        this.skill=new chaSkill[skillNumLimit];
+        this.skill=new Array();
         this.skillNum=0;
 
         let i,j;
