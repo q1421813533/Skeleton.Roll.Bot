@@ -100,6 +100,7 @@ class chaData{
             {
                 result+="\n";
                 changeLine=1;
+                formerType=nowType;
             }
             result+=this.skill[i].name+": "+this.skill[i].value
             if(changeLine==0)
