@@ -26,6 +26,9 @@ const EXPUP = require('./level').EXPUP || function () {
 const courtMessage = require('./logs').courtMessage || function () {
 };
 
+const chaSkill = require('../character/chaSkill');
+
+
 TGclient.on('text', async (ctx) => {
     if (ctx.from.is_bot) return;
     let inputStr = ctx.text;
