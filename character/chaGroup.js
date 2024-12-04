@@ -122,7 +122,6 @@ class chaGroup{
         let i;
         for(i=0;i<groupSize;i++)
         {
-            console.log("Code:"+this.members[i].code+"/"+chaCode);
             if(this.members[i].code==chaCode)
             {
 
