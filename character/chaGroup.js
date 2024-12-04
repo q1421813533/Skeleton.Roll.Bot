@@ -118,9 +118,9 @@ class chaData{
         let result = false;
         let i;
 
-        for(i=0;i<nowCha.statusNum;i++)
+        for(i=0;i<this.statusNum;i++)
         {
-            if(infoStr.indexOf(nowCha.status[i].code)!=-1)
+            if(infoStr.indexOf(this.status[i].code)!=-1)
             {
                 result=true;
                 break;
@@ -133,9 +133,9 @@ class chaData{
     containSkill(infoStr){
         let result = false;
         let i;
-        for(i=0;i<nowCha.skillNum;i++)
+        for(i=0;i<this.skillNum;i++)
         {
-            if(infoStr.indexOf(nowCha.skill[i].code)!=-1)
+            if(infoStr.indexOf(this.skill[i].code)!=-1)
             {
                 result=true;
                 break;
@@ -164,11 +164,11 @@ class chaData{
             }
             else
             {
-                nowAttr=nowCha.findStatus(tempStr[i]);
+                nowAttr=this.findStatus(tempStr[i]);
                 if(nowAttr!=null)
                     nowType="status";
                 else{
-                    nowAttr=nowCha.findSkill(tempStr[i]);
+                    nowAttr=this.findSkill(tempStr[i]);
                     if(nowAttr!=null)
                         nowType="skill";
                 }
@@ -239,7 +239,7 @@ class chaGroup{
         let chaCode="";
         if((tempStr.length>=2)&&(tempStr[0].length>1))
             chaCode=tempStr[0].substring(1,tempStr[0].length);
-        let nowCha=characterGroup.findCha(chaCode);
+        let nowCha=this.findCha(chaCode);
         return nowCha;
     }
 
