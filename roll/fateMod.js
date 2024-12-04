@@ -32,7 +32,7 @@ const initialize = function () {
     return variables;
 }
 
-const getNowCha = function (infoStr) {
+const getNowCha = async function (infoStr) {
     let tempStr=infoStr.split(" ");
     let chaCode="";
     if((tempStr.length>=2)&&(tempStr[0].length>1))
