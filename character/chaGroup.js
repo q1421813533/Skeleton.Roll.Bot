@@ -79,7 +79,7 @@ class chaData{
 
     show(){
         let result=this.name+"\n";
-        let formerType="";
+        let nextType="";
         let nowType="";
         let i;
         let changeLine=0;
@@ -95,18 +95,18 @@ class chaData{
 
         for(i=0;i<this.skillNum;i++)
         {
+            result+=this.skill[i].name+": "+this.skill[i].value;
             nowType=this.skill[i].type;
-            if(nowType!=formerType)
+            if(i<this.statusNum-1)
             {
-                result+="\n";
-                changeLine=1;
-                formerType=nowType;
+                nextType=this.skill[i+1].type;
+                if(nowType==nextType)
+                    result+=",";
+                else
+                    result+="\n";
             }
-            result+=this.skill[i].name+": "+this.skill[i].value
-            if(changeLine==0)
-                result+=",";
             else
-                changeLine=0;
+                result+="\n";
         }
         return result;
     }
