@@ -165,7 +165,7 @@ class chaData{
 
         for(i=infoStr.length-1;i>0;i--)
         {            
-            if(/^-?\d+$/.test(infoStr[i]))
+            if(/^[+-]?\d+$/.test(infoStr[i]))
             {
                 nowAdjust=infoStr[i];
             }
