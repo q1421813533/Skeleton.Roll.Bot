@@ -102,7 +102,7 @@ async function adjustAttrValue(nowCha,infoStr){
                 if(nowAttr!=null)
                     nowType="skill";
             }
-            
+
             if(nowAttr!=null){
                 if(nowAdjust!=null)
                 {
@@ -154,10 +154,10 @@ const rollDiceCommand = async function ({
                 rply.text = "角色不存在。"
             return rply;
         case hasStatus==true:
-            rply.text = await adjustAttrValue(nowCha,mainMsg[1],"status");
+            rply.text = await adjustAttrValue(nowCha,mainMsg[1]);
             return rply;
         case hasSkill==true:
-            rply.text = await adjustAttrValue(nowCha,mainMsg[1],"skill");
+            rply.text = await adjustAttrValue(nowCha,mainMsg[1]);
             return rply;    
         default: {
             rply.text = `在劫难逃~`
