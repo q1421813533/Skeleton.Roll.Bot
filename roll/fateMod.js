@@ -48,7 +48,7 @@ const rollDiceCommand = async function ({
             return rply;
         case /^show$/i.test(mainMsg[1]):
             rply.text = "";
-            let nowCha = getNowCha(inputStr.toString());
+            let nowCha = await this.getNowCha(inputStr.toString());
             if(nowCha!=null)
                 rply.text = nowCha.show();
             else
