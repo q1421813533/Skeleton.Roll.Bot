@@ -1,6 +1,13 @@
-exports.chaSkill = require('./chaSkill');
-
 const skillNumLimit = 50;
+
+class chaSkill{
+    constructor(skillName,skillCode,skillValue,skillType){
+        this.name=skillName;
+        this.code=skillCode;
+        this.value=skillValue;
+        this.type=skillType;
+    }
+}
 
 class chaData{
     constructor(chaName,skillArray){
