@@ -118,13 +118,17 @@ class chaData{
         let result = false;
         let i;
 
+        if(infoStr.length<2)
+            return result;
+
         for(i=0;i<this.statusNum;i++)
         {
-            if(infoStr.indexOf(this.status[i].code)!=-1)
-            {
-                result=true;
-                break;
-            }
+            for(j=1;j<infoStr.length;j++)
+                if(infoStr[j]==this.status[i].code)
+                {
+                    result=true;
+                    break;
+                }
         }
 
         return result;
@@ -133,13 +137,18 @@ class chaData{
     containSkill(infoStr){
         let result = false;
         let i;
+
+        if(infoStr.length<2)
+            return result;
+        
         for(i=0;i<this.skillNum;i++)
         {
-            if(infoStr.indexOf(this.skill[i].code)!=-1)
-            {
-                result=true;
-                break;
-            }
+            for(j=1;j<infoStr.length;j++)
+                if(infoStr[j]==this.skill[i].code)
+                {
+                    result=true;
+                    break;
+                }
         }
 
         return result;
@@ -148,30 +157,25 @@ class chaData{
     adjustAttrValue(infoStr){
         let result = "";
 
-        let tempStr=infoStr.split(/\s+/);
-
         let nowAttr=null;
         let nowAdjust=null;
         let nowType;
 
         let i;
 
-        for(i=tempStr.length-1;i>=0;i--)
-        {
-            console.log("Attr "+i+":"+tempStr[i]);
-            
-            if(/^-?\d+$/.test(tempStr[i]))
+        for(i=infoStr.length-1;i>0;i--)
+        {            
+            if(/^-?\d+$/.test(infoStr[i]))
             {
-                nowAdjust=tempStr[i];
-                console.log("Adjust :"+nowAdjust);
+                nowAdjust=infoStr[i];
             }
             else
             {
-                nowAttr=this.findStatus(tempStr[i]);
+                nowAttr=this.findStatus(infoStr[i]);
                 if(nowAttr!=null)
                     nowType="status";
                 else{
-                    nowAttr=this.findSkill(tempStr[i]);
+                    nowAttr=this.findSkill(infoStr[i]);
                     if(nowAttr!=null)
                         nowType="skill";
                 }
@@ -238,10 +242,7 @@ class chaGroup{
     }
 
     getNowCha(infoStr){
-        let tempStr=infoStr.split(/\s+/);
-        let chaCode="";
-        if((tempStr.length>=2)&&(tempStr[0].length>1))
-            chaCode=tempStr[0].substring(1,tempStr[0].length);
+        let chaCode=infoStr[0].substring(1,infoStr[0].length);
         let nowCha=this.findCha(chaCode);
         return nowCha;
     }
