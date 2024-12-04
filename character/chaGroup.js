@@ -158,9 +158,12 @@ class chaData{
 
         for(i=tempStr.length-1;i>=0;i--)
         {
+            console.log("Attr "+i+":"+tempStr[i]);
+            
             if(/^-?\d+$/.test(tempStr[i]))
             {
                 nowAdjust=tempStr[i];
+                console.log("Adjust :"+nowAdjust);
             }
             else
             {
