@@ -1,4 +1,4 @@
-exports.z_stop = require('./chaSkill');
+exports.chaSkill = require('./chaSkill');
 
 const skillNumLimit = 50;
 
