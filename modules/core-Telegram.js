@@ -27,7 +27,7 @@ const courtMessage = require('./logs').courtMessage || function () {
 };
 
 const chaSkill = require('../character/chaSkill');
-testSkill = new chaSkill("猫叫",10);
+let testSkill = new chaSkill("猫叫",10);
 
 TGclient.on('text', async (ctx) => {
     if (ctx.from.is_bot) return;
