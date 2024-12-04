@@ -34,6 +34,8 @@ TGclient.on('text', async (ctx) => {
     if (ctx.from.is_bot) return;
 
     let testCha=characterGroup.findCha("sln");
+    if(testCha!=null)
+            console.log(testCha.show());
     let inputStr = ctx.text;
     let trigger = "",
         mainMsg = "",
