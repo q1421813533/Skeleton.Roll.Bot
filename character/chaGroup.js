@@ -183,8 +183,11 @@ class chaData{
                 if(nowAttr!=null){
                     if(nowAdjust!=null)
                     {
-                        if(/^[+-]/.test(nowAdjust))
+                        if(/^[+-]/.test(nowAdjust)){
                             nowAttr.value=parseInt(nowAttr.value)+parseInt(nowAdjust);
+                            if(parseInt(nowAttr.value)>parseInt(nowAttr.limit))
+                                nowAttr.value=nowAttr.limit
+                        }
                         else
                             nowAttr.value=parseInt(nowAdjust);
                         nowAdjust=null;
