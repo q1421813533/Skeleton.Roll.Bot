@@ -1,10 +1,10 @@
 class chaSkill{
-    constructor(){
-        this.name="";
-        this.value=0;
-        this.sound=function(){
-            console.log("喵喵喵喵喵喵喵喵");
-        }
+    constructor(skillName,skillValue){
+        this.name=skillName;
+        this.value=skillValue;
+    }
+    show() {
+        return this.name +":"+ this.value;
     }
 }
 module.exports = chaSkill;
