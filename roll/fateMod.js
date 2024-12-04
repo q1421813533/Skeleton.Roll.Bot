@@ -40,6 +40,89 @@ const getNowCha = async function (infoStr) {
     let nowCha=characterGroup.findCha(chaCode);
     return nowCha;
 }
+
+async function containStatus(nowCha,infoStr){
+    result = false;
+
+    let i;
+
+    for(i=0;i<nowCha.statusNum;i++)
+    {
+        if(infoStr.indexOf(nowCha.status[i].code)!=-1)
+        {
+            result=true;
+            break;
+        }
+    }
+
+    return result;
+}
+
+async function containSkill(nowCha,infoStr){
+    result = false;
+
+    let i;
+
+    for(i=0;i<nowCha.skillNum;i++)
+    {
+        if(infoStr.indexOf(nowCha.skill[i].code)!=-1)
+        {
+            result=true;
+            break;
+        }
+    }
+
+    return result;
+}
+
+async function adjustAttrValue(nowCha,infoStr,targetType){
+    result = "";
+
+    let tempStr=infoStr.split(" ");
+
+    let nowAttr=null;
+    let nowAdjust=null;
+
+    let i;
+
+    for(i=tempStr.length-1;i>=0;i++)
+    {
+        if(/^-?\d+$/.test(tempStr[i]))
+        {
+            nowAdjust=tempStr[i];
+        }
+        else
+        {
+            if(targetType=="status")
+                nowAttr=nowCha.findStatus(tempStr[i]);
+            else if(targetType=="skill")
+                nowAttr=nowCha.findSkill(tempStr[i]);
+
+            if(nowAttr!=null){
+                if(nowAdjust!=null)
+                {
+                    if(/^[+-]/.test(nowAdjust))
+                        nowAttr.value+=parseInt(nowAdjust);
+                    else
+                        nowAttr.value=parseInt(nowAdjust);
+                    nowAdjust=null;
+                }
+                if(targetType=="status")
+                    result+=nowAttr.name+": ",nowAttr.value+"/"+nowAttr.limit+"\n";
+                else if(targetType=="skill")
+                    result+=nowAttr.name+": ",nowAttr.value+"\n";
+            }
+        }
+    }
+    
+    if(result=="")
+        result="输入错误。"
+
+    return result;
+}
+
+
+
 const rollDiceCommand = async function ({
     inputStr,
     mainMsg
@@ -49,6 +132,10 @@ const rollDiceCommand = async function ({
         type: 'text',
         text: ''
     };
+    let nowCha = await this.getNowCha(inputStr.toString());
+    let hasStatus = await containStatus(nowCha,mainMsg[1]);
+    let hasSkill = await containSkill(nowCha,mainMsg[1]);
+
     switch (true) {
         case /^help$/i.test(mainMsg[1]):
             rply.text = await this.getHelpMessage();
@@ -56,37 +143,19 @@ const rollDiceCommand = async function ({
             return rply;
         case /^show$/i.test(mainMsg[1]):
             rply.text = "";
-            let nowCha = await this.getNowCha(inputStr.toString());
             if(nowCha!=null)
                 rply.text = nowCha.show();
             else
                 rply.text = "角色不存在。"
             return rply;
+        case hasStatus==true:
+            rply.text = await adjustAttrValue(nowCha,mainMsg[1],"status");
+            return rply;
+        case hasSkill==true:
+            rply.text = await adjustAttrValue(nowCha,mainMsg[1],"skill");
+            return rply;    
         default: {
-            //.4dfm23,m23,m,23
-            //＋∎－
-            let random = '',
-                temp = '';
-            let ans = 0
-
-            for (let i = 0; i < 4; i++) {
-                random = (rollbase.Dice(3) - 2)
-                ans += random
-                temp += random
-                temp = temp.replace('-1', '－').replace('0', '▉').replace('1', '＋')
-            }
-            try {
-                rply.text = 'Fate ' + inputStr.toString().replace(/\r/g, " ").replace(/\n/g, " ") + '\n' + temp + ' = ' + ans;
-                let mod = mainMsg[0].replace(/^\.4df/ig, '').replace(/^(\d)/, '+$1').replace(/m/ig, '-').replace(/-/g, ' - ').replace(/\+/g, ' + ');
-                if (mod) {
-                    rply.text += ` ${mod} = ${mathjs.evaluate(ans + mod)}`.replace(/\*/g, ' * ')
-
-                }
-            } catch (error) {
-                rply.text = `.4df 輸入出錯 \n${error.message}`
-            }
-
-
+            rply.text = `在劫难逃~`
             return rply;
         }
     }
