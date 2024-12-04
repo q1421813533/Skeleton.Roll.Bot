@@ -86,7 +86,7 @@ const rollDiceCommand = async function ({
 function getNowCha(infoStr){
     let tempStr=infoStr.split(" ");
     let chaCode="";
-    if((tempStr.length>=2)&&(tempStr[0].length>1)
+    if((tempStr.length>=2)&&(tempStr[0].length>1))
         chaCode=tempStr[0].substring(1,tempStr[0].length);
     let nowCha=characterGroup.findCha(chaCode);
     return nowCha;
