@@ -50,7 +50,7 @@ class chaData{
     findStatus(statusCode){
         let i;
 
-        for(i=0;i<statusNum;i++)
+        for(i=0;i<this.statusNum;i++)
             if(this.status[i].code==statusCode)
                 return this.status[i];
         return null;
@@ -59,7 +59,7 @@ class chaData{
     findSkill(skillCode){
         let i;
 
-        for(i=0;i<skillNum;i++)
+        for(i=0;i<this.skillNum;i++)
             if(this.skill[i].code==skillCode)
                 return this.skill[i];
         return null;
@@ -120,21 +120,21 @@ class chaGroup{
 
     findCha(chaCode){
         let i;
-        for(i=0;i<groupSize;i++)
+        for(i=0;i<this.groupSize;i++)
             if(this.members[i].code==chaCode)
                 return this.members[i];
         return null;
     }
 
     addCha(chaName,chaCode,statusArray,skillArray){
-        if((findCha(chaCode)==null)&&(groupSize<groupSizeLimit)){
+        if((this.findCha(chaCode)==null)&&(this.groupSize<groupSizeLimit)){
             this.members[groupSize]=new chaData(chaName,chaCode,statusArray,skillArray);
             this.groupSize++;
         }
     }
 
     delCha(chaCode){
-        for(i=0;i<groupSize;i++)
+        for(i=0;i<this.groupSize;i++)
             if(this.members[i].code==chaCode)
             {
                 this.members.splice(i,1);
