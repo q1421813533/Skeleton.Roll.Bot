@@ -183,9 +183,9 @@ class chaData{
                         nowAdjust=null;
                     }
                     if(nowType=="status")
-                        result+=nowAttr.name+": ",nowAttr.value+"/"+nowAttr.limit+"\n";
+                        result+=nowAttr.name+": "+nowAttr.value+"/"+nowAttr.limit+"\n";
                     else if(nowType=="skill")
-                        result+=nowAttr.name+": ",nowAttr.value+"\n";
+                        result+=nowAttr.name+": "+nowAttr.value+"\n";
                 }
             }
         }
