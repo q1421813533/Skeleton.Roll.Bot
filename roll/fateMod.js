@@ -43,7 +43,7 @@ const rollDiceCommand = async function ({
         type: 'text',
         text: ''
     };
-    let nowCha = characterGroup.getNowCha(inputStr.toString());
+    let nowCha = characterGroup.getNowCha(mainMsg[0]);
 
     switch (true) {
         case /^help$/i.test(mainMsg[1]):
@@ -57,10 +57,10 @@ const rollDiceCommand = async function ({
             else
                 rply.text = "角色不存在。"
             return rply;
-        case nowCha.containStatus(mainMsg[1])==true:
+        case nowCha.containStatus(mainMsg)==true:
             rply.text = nowCha.adjustAttrValue(mainMsg[1]);
             return rply;
-        case nowCha.containSkill(mainMsg[1])==true:
+        case nowCha.containSkill(mainMsg)==true:
             rply.text = nowCha.adjustAttrValue(mainMsg[1])
             return rply;    
         default: {
