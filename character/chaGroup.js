@@ -1,6 +1,8 @@
 const statusNumLimit = 50;
 const skillNumLimit = 50;
 const groupSizeLimit = 50;
+const statusType = "基础";
+
 
 class chaStatus{
     constructor(statusName,statusCode,statusValue){
@@ -21,7 +23,7 @@ class chaSkill{
 }
 
 class chaData{
-    constructor(chaName,chaCode,statusArray,skillArray){
+    constructor(chaName,chaCode,attrArray){
         this.name=chaName;
         this.code=chaCode;
         this.status=new Array();
@@ -32,18 +34,19 @@ class chaData{
         let i,j;
         let inputParts;
 
-        for(i=0;((i<statusArray.length)&&(i<statusNumLimit));i++)
+        for(i=0;((i<attrArray.length));i++)
         {
-            inputParts=statusArray[i].split(",");
-            this.status[i]=new chaStatus(inputParts[0],inputParts[1],inputParts[2]);
-            this.statusNum++;
-        }
-
-        for(i=0;((i<skillArray.length)&&(i<skillNumLimit));i++)
-        {
-            inputParts=skillArray[i].split(",");
-            this.skill[i]=new chaSkill(inputParts[0],inputParts[1],inputParts[2],inputParts[3]);
-            this.skillNum++;
+            inputParts=attrArray[i].split(",");
+            if((inputParts[3]==statusType)&&(this.statusNum<statusNumLimit))
+            {
+                this.status[i]=new chaStatus(inputParts[0],inputParts[1],inputParts[2]);
+                this.statusNum++;
+            }
+            if((inputParts[3]!=statusType)&&(this.statusNum<skillNumLimit))
+            {
+                this.skill[i]=new chaSkill(inputParts[0],inputParts[1],inputParts[2],inputParts[3]);
+                this.skillNum++;
+            }
         }
     }
 
@@ -131,9 +134,9 @@ class chaGroup{
         return null;
     }
 
-    addCha(chaName,chaCode,statusArray,skillArray){
+    addCha(chaName,chaCode,attrArray){
         if((this.findCha(chaCode)==null)&&(this.groupSize<groupSizeLimit)){
-            this.members[this.groupSize]=new chaData(chaName,chaCode,statusArray,skillArray);
+            this.members[this.groupSize]=new chaData(chaName,chaCode,attrArray);
             this.groupSize++;
         }
     }
