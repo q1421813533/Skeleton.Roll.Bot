@@ -7,4 +7,4 @@ class chaSkill{
         }
     }
 }
-module.exports = ChaSkill;
+module.exports = chaSkill;
