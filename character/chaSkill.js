@@ -7,4 +7,4 @@ class chaSkill{
         }
     }
 }
-export default chaSkill;
+module.exports = Cat;
