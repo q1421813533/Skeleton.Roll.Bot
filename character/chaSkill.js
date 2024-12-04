@@ -1,10 +1,9 @@
 class chaSkill{
-    constructor(skillName,skillValue){
+    constructor(skillName,skillCode,skillValue,skillType){
         this.name=skillName;
+        this.code=skillCode;
         this.value=skillValue;
-    }
-    show() {
-        return this.name +":"+ this.value;
+        this.type=skillType;
     }
 }
 module.exports = chaSkill;
