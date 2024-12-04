@@ -35,7 +35,9 @@ TGclient.on('text', async (ctx) => {
 
     let testCha=characterGroup.findCha("sln");
     if(testCha!=null)
-            console.log(testCha.show());
+        console.log(testCha.show());
+    else
+        console.log("Search:Failed");
     let inputStr = ctx.text;
     let trigger = "",
         mainMsg = "",
