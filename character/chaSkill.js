@@ -7,4 +7,4 @@ class chaSkill{
         }
     }
 }
-module.exports = Cat;
+module.exports = ChaSkill;
