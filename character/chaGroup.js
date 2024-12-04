@@ -44,6 +44,7 @@ class chaData{
             }
             if((inputParts[3]!=statusType)&&(this.statusNum<skillNumLimit))
             {
+                console.log("新技能："+inputParts[0]+","+inputParts[1]+","+inputParts[2]+","+inputParts[3]);
                 this.skill[i]=new chaSkill(inputParts[0],inputParts[1],inputParts[2],inputParts[3]);
                 this.skillNum++;
             }
@@ -98,6 +99,7 @@ class chaData{
 
         for(i=0;i<this.skillNum;i++)
         {
+            console.log("技能："+this.skill[i].name);
             result+=this.skill[i].name+" "+this.skill[i].value;
             nowType=this.skill[i].type;
             if(i<this.skillNum-1)
