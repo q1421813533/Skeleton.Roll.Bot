@@ -148,7 +148,7 @@ class chaData{
     adjustAttrValue(infoStr){
         let result = "";
 
-        let tempStr=infoStr.split(" ");
+        let tempStr=infoStr.split(/\s+/);
 
         let nowAttr=null;
         let nowAdjust=null;
@@ -235,7 +235,7 @@ class chaGroup{
     }
 
     getNowCha(infoStr){
-        let tempStr=infoStr.split(" ");
+        let tempStr=infoStr.split(/\s+/);
         let chaCode="";
         if((tempStr.length>=2)&&(tempStr[0].length>1))
             chaCode=tempStr[0].substring(1,tempStr[0].length);
