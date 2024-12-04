@@ -307,15 +307,15 @@ TGclient.on('new_chat_members', async (ctx) => {
     let newUser = await TGclient.getMe();
     if (ctx.new_chat_member.username == newUser.username) {
         console.log("Telegram joined");
-        SendToId(ctx.chat.id, newMessage.joinMessage());
+        //SendToId(ctx.chat.id, newMessage.joinMessage());
     }
 });
 
 TGclient.on('group_chat_created', async (ctx) => {
-    SendToId(ctx.chat.id, newMessage.joinMessage());
+    //SendToId(ctx.chat.id, newMessage.joinMessage());
 });
 TGclient.on('supergroup_chat_created', async (ctx) => {
-    SendToId(ctx.chat.id, newMessage.joinMessage());
+    //SendToId(ctx.chat.id, newMessage.joinMessage());
 });
 
 
