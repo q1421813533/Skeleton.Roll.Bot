@@ -32,100 +32,6 @@ const initialize = function () {
     return variables;
 }
 
-const getNowCha = async function (infoStr) {
-    let tempStr=infoStr.split(" ");
-    let chaCode="";
-    if((tempStr.length>=2)&&(tempStr[0].length>1))
-        chaCode=tempStr[0].substring(1,tempStr[0].length);
-    let nowCha=characterGroup.findCha(chaCode);
-    return nowCha;
-}
-
-async function containStatus(nowCha,infoStr){
-    let result = false;
-
-    let i;
-
-    for(i=0;i<nowCha.statusNum;i++)
-    {
-        if(infoStr.indexOf(nowCha.status[i].code)!=-1)
-        {
-            result=true;
-            break;
-        }
-    }
-
-    return result;
-}
-
-async function containSkill(nowCha,infoStr){
-    let result = false;
-
-    let i;
-
-    for(i=0;i<nowCha.skillNum;i++)
-    {
-        if(infoStr.indexOf(nowCha.skill[i].code)!=-1)
-        {
-            result=true;
-            break;
-        }
-    }
-
-    return result;
-}
-
-async function adjustAttrValue(nowCha,infoStr){
-    let result = "";
-
-    let tempStr=infoStr.split(" ");
-
-    let nowAttr=null;
-    let nowAdjust=null;
-    let nowType;
-
-    let i;
-
-    for(i=tempStr.length-1;i>=0;i++)
-    {
-        if(/^-?\d+$/.test(tempStr[i]))
-        {
-            nowAdjust=tempStr[i];
-        }
-        else
-        {
-            nowAttr=nowCha.findStatus(tempStr[i]);
-            if(nowAttr!=null)
-                nowType="status";
-            else{
-                nowAttr=nowCha.findSkill(tempStr[i]);
-                if(nowAttr!=null)
-                    nowType="skill";
-            }
-
-            if(nowAttr!=null){
-                if(nowAdjust!=null)
-                {
-                    if(/^[+-]/.test(nowAdjust))
-                        nowAttr.value+=parseInt(nowAdjust);
-                    else
-                        nowAttr.value=parseInt(nowAdjust);
-                    nowAdjust=null;
-                }
-                if(nowType=="status")
-                    result+=nowAttr.name+": ",nowAttr.value+"/"+nowAttr.limit+"\n";
-                else if(nowType=="skill")
-                    result+=nowAttr.name+": ",nowAttr.value+"\n";
-            }
-        }
-    }
-    
-    if(result=="")
-        result="输入错误。"
-
-    return result;
-}
-
 
 
 const rollDiceCommand = async function ({
@@ -137,9 +43,9 @@ const rollDiceCommand = async function ({
         type: 'text',
         text: ''
     };
-    let nowCha = await this.getNowCha(inputStr.toString());
-    let hasStatus = await containStatus(nowCha,mainMsg[1]);
-    let hasSkill = await containSkill(nowCha,mainMsg[1]);
+    let nowCha = characterGroup.getNowCha(inputStr.toString());
+    let hasStatus = nowCha.containStatus(nowCha,mainMsg[1]);
+    let hasSkill = nowCha.containSkill(nowCha,mainMsg[1]);
 
     switch (true) {
         case /^help$/i.test(mainMsg[1]):
@@ -154,10 +60,10 @@ const rollDiceCommand = async function ({
                 rply.text = "角色不存在。"
             return rply;
         case hasStatus==true:
-            rply.text = await adjustAttrValue(nowCha,mainMsg[1]);
+            rply.text = nowCha.adjustAttrValue(nowCha,mainMsg[1]);
             return rply;
         case hasSkill==true:
-            rply.text = await adjustAttrValue(nowCha,mainMsg[1]);
+            rply.text = nowCha.adjustAttrValue(nowCha,mainMsg[1]);
             return rply;    
         default: {
             rply.text = `在劫难逃~`
@@ -172,6 +78,5 @@ module.exports = {
     getHelpMessage: getHelpMessage,
     prefixs: prefixs,
     gameType: gameType,
-    gameName: gameName,
-    getNowCha: getNowCha
+    gameName: gameName
 };
