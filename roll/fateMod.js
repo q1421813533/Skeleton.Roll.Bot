@@ -58,10 +58,10 @@ const rollDiceCommand = async function ({
                 rply.text = "角色不存在。"
             return rply;
         case nowCha.containStatus(mainMsg[1])==true:
-            rply.text = "存在属性";
+            rply.text = nowCha.adjustAttrValue(mainMsg[1]);
             return rply;
         case nowCha.containSkill(mainMsg[1])==true:
-            rply.text = "存在技能";
+            rply.text = nowCha.adjustAttrValue(mainMsg[1])
             return rply;    
         default: {
             rply.text = `在劫难逃~`
