@@ -304,12 +304,12 @@ class chaData{
                     moveSkillLevel=parseInt(this.skill[j].value);
                     if(this.skill[j].type=="世俗")
                     {
-                        result+="精力流失";
+                        result+="精力耗竭";
                         costStatus=spSkill;
                     }
                     else
                     {
-                        result+="魔力流失";
+                        result+="魔力耗竭";
                         costStatus=mpSkill;
                     }
 
@@ -318,12 +318,12 @@ class chaData{
                     if(costValue<=moveSkillLevel)
                     {
                         costSign="≤";
-                        costText="True";
+                        costText="是";
                     }
                     else
                     {
                         costSign=">";
-                        costText="False";
+                        costText="否";
                     }
                     result+="("+this.skill[j].name+"):\n";
                     result+="1d"+costStatus.value+" = "+costValue+" "+costSign+" "+moveSkillLevel+"  →  "+costText+"\n";
