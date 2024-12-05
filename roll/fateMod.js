@@ -59,14 +59,14 @@ const rollDiceCommand = async function ({
             return rply;
         case /^[abcde]$/i.test(mainMsg[2]):
             try {
-                rply.text = nowCha.giveMoveStr(mainMsg[1])+"\n";            
-                let mod = mainMsg[0].replace(/^\.4df/ig, '').replace(/^(\d)/, '+$1').replace(/m/ig, '-').replace(/-/g, ' - ').replace(/\+/g, ' + ');
+                rply.text = nowCha.giveMoveStr(mainMsg)+"\n";            
+                let mod = nowCha.giveMoveValue(mainMsg[1]).replace(/^\.4df/ig, '').replace(/^(\d)/, '+$1').replace(/m/ig, '-').replace(/-/g, ' - ').replace(/\+/g, ' + ');
                 if (mod) {
                     rply.text += ` ${mod} = ${mathjs.evaluate(ans + mod)}`.replace(/\*/g, ' * ') + "\n";
                     rply.text += nowCha.giveMoveCost(mainMsg[1])+"\n";
                 }
             } catch (error) {
-                rply.text = `.4df 輸入出錯 \n${error.message}`
+                rply.text = `.4df 输入出错 \n${error.message}`
             }
             return rply;
         default: {
