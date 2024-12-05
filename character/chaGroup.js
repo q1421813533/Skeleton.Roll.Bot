@@ -185,15 +185,17 @@ class chaData{
                     {
                         if(/^[+-]/.test(nowAdjust)){
                             nowAttr.value=parseInt(nowAttr.value)+parseInt(nowAdjust);
-                            if(parseInt(nowAttr.value)>parseInt(nowAttr.limit))
-                                nowAttr.value=nowAttr.limit
                         }
                         else
                             nowAttr.value=parseInt(nowAdjust);
                         nowAdjust=null;
                     }
                     if(nowType=="status")
+                    {
+                        if((parseInt(nowAttr.value)>parseInt(nowAttr.limit))
+                            nowAttr.value=""+nowAttr.limit;
                         result+=nowAttr.name+": "+nowAttr.value+"/"+nowAttr.limit+"\n";
+                    }
                     else if(nowType=="skill")
                         result+=nowAttr.name+": "+nowAttr.value+"\n";
                 }
