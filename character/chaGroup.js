@@ -192,7 +192,7 @@ class chaData{
                     }
                     if(nowType=="status")
                     {
-                        if((parseInt(nowAttr.value)>parseInt(nowAttr.limit))
+                        if(parseInt(nowAttr.value)>parseInt(nowAttr.limit))
                             nowAttr.value=""+nowAttr.limit;
                         result+=nowAttr.name+": "+nowAttr.value+"/"+nowAttr.limit+"\n";
                     }
