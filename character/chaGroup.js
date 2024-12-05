@@ -212,7 +212,7 @@ class chaData{
 
         let i,j;
         let result="";
-        let tempStr=infoStr[2].split(/[+-]/);
+        let tempStr=infoStr[1].split(/[+-]/);
         let skillNameStr="";
         let moveType="";
         
@@ -220,14 +220,13 @@ class chaData{
         {
             for(j=0;j<this.skillNum;j++)
                 if(tempStr[i]==this.skill[j].code)
-                    skillNameStr+=this.skill[j].name;
+                    skillNameStr+=this.skill[j].name+"+";
         }
-
-        if(skillNameStr=="")
-            skillNameStr="无技能"
 
         if(skillNameStr.length>1)
             skillNameStr=skillNameStr.substring(1,skillNameStr.length-1);
+        else
+            skillNameStr="无技能";
 
         switch (infoStr[2]){
             case "a":
@@ -290,11 +289,11 @@ class chaData{
         let costValue;
         let moveSkillLevel;
 
-        let spSkill=this.findSkill("sp");
-        let mpSkill=this.findSkill("mp");
-        let costSkill,costSign,costText;   
+        let spStatus=this.findStatus("sp");
+        let mpStatus=this.findStatus("mp");
+        let costStatus,costSign,costText;   
 
-        if((spSkill==null)||(mpSkill==null))
+        if((spStatus==null)||(mpStatus==null))
             return result;
         
         for(i=0;i<tempStr.length;i++)
@@ -306,12 +305,12 @@ class chaData{
                     if(this.skill[j].type=="世俗")
                     {
                         result+="精力流失";
-                        costSkill=spSkill;
+                        costStatus=spSkill;
                     }
                     else
                     {
                         result+="魔力流失";
-                        costSkill=mpSkill;
+                        costStatus=mpSkill;
                     }
 
                     costValue=Math.floor(Math.random() * Math.floor(parseInt(costSkill.value)))+1;
@@ -327,7 +326,7 @@ class chaData{
                         costText="False";
                     }
                     result+="("+this.skill[j].name+"):\n";
-                    result+="1d"+costSkill.value+" = "+costValue+" "+costSign+" "+moveSkillLevel+"  →  "+costText+"\n";
+                    result+="1d"+costStatus.value+" = "+costValue+" "+costSign+" "+moveSkillLevel+"  →  "+costText+"\n";
                 }
         }
 
