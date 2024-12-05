@@ -252,11 +252,12 @@ class chaData{
 
     giveMoveValue(midStr){
         let skillValueStr=midStr;
+        let formerSign=".4df+";
         for(i=0;i<this.skillNum;i++)
         {
             skillValueStr=skillValueStr.replace(this.skill[i].code,this.skill[i].value);
         }
-        return ".4df+"skillValueStr;
+        return formerSign+skillValueStr;
     }
 
     giveMoveStr(midStr){
