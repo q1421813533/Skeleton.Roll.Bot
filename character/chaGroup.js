@@ -203,7 +203,7 @@ class chaData{
         }
         
         if(result=="")
-            result="输入错误。"
+            result="输入有误。"
 
         return result;
     }
@@ -299,16 +299,16 @@ class chaData{
             return result;
 
         let costMod = "";
-        let skillNum;
+        let skillNum = 0;
 
         for(i=0;i<tempStr.length;i++)
         {
-            
+            if((/^\d+$/.test(tempStr[i]))==false)
+                skillNum++;
         }
-            
         
-        if(tempStr.length>=2)
-            costMod = 0-tempStr.length;
+        if(skillNum>=2)
+            costMod = 0-skillNum;
         
         for(i=0;i<tempStr.length;i++)
         {
