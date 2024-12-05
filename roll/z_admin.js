@@ -30,7 +30,7 @@ const gameType = function () {
 }
 const prefixs = function () {
     return [{
-        first: /^[.]admin$/i,
+        first: null,
         second: null
     }]
 }
