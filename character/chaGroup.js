@@ -291,7 +291,7 @@ class chaData{
 
         let spStatus=this.findStatus("sp");
         let mpStatus=this.findStatus("mp");
-        let costStatus,costSign,costText;   
+        let costStatus,costSign,costText,costFinal;   
 
         if((spStatus==null)||(mpStatus==null))
             return result;
@@ -321,9 +321,11 @@ class chaData{
                     costValue=Math.floor(Math.random() * Math.floor(parseInt(costStatus.value)))+1;
 
                     if(costMod!="")
-                        costValue+=costMod;
+                        costFinal = costValue+costMod;
+                    else
+                        costFinal = costValue;
 
-                    if(costValue<=moveSkillLevel)
+                    if(costFinal<=moveSkillLevel)
                     {
                         costSign="≤";
                         costText="True";
@@ -334,7 +336,7 @@ class chaData{
                         costText="False";
                     }
                     result+="("+this.skill[j].name+"):\n";
-                    result+="1d"+costStatus.value+costMod+" = "+costValue+" "+costSign+" "+moveSkillLevel+"  →  "+costText+"\n";
+                    result+="1d"+costStatus.value+"["+costValue+"]"+costMod+" = "+costFinal+" "+costSign+" "+moveSkillLevel+"  →  "+costText+"\n";
                     costMod++;
                 }
         }
