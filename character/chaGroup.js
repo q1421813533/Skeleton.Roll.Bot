@@ -223,6 +223,9 @@ class chaData{
                     skillNameStr+=this.skill[j].name;
         }
 
+        if(skillNameStr=="")
+            skillNameStr="无技能"
+
         if(skillNameStr.length>1)
             skillNameStr=skillNameStr.substring(1,skillNameStr.length-1);
 
@@ -250,7 +253,8 @@ class chaData{
         return result;
     }
 
-    giveMoveValue(midStr){        
+    giveMoveValue(midStr){
+        let i,j;
         let skillValueStr=midStr;
         let formerSign=".4df+";
         let isFirstSkill=true;
