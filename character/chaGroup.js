@@ -282,8 +282,7 @@ class chaData{
                 if(tempStr[i]==this.skill[j].code)
                 {
                     moveSkillLevel=parseInt(this.skill[j].value);
-                    
-                    if(this.skill[j].type=="世俗')
+                    if(this.skill[j].type=="世俗")
                     {
                         result+="精力流失";
                         costSkill=spSkill;
