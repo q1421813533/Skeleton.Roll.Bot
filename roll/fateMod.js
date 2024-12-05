@@ -58,12 +58,24 @@ const rollDiceCommand = async function ({
                 rply.text = "角色不存在。"
             return rply;
         case /^[abcde]$/i.test(mainMsg[2]):
+            let random = '',
+                temp = '';
+            let ans = 0
+            for (let i = 0; i < 4; i++) {
+                random = (rollbase.Dice(3) - 2)
+                ans += random
+                temp += random
+                temp = temp.replace('-1', '－').replace('0', '▉').replace('1', '＋')
+            }
             try {
-                rply.text = nowCha.giveMoveStr(mainMsg)+"\n";            
-                let mod = nowCha.giveMoveValue(mainMsg[1]).replace(/^\.4df/ig, '').replace(/^(\d)/, '+$1').replace(/m/ig, '-').replace(/-/g, ' - ').replace(/\+/g, ' + ');
+                rply.text = nowCha.giveMoveStr(mainMsg)+"\n";
+                rply.text += temp + ' = ' + ans;
+                let rollStr=nowCha.giveMoveValue(mainMsg[1]);
+                console.log("Roll:"+rollStr);
+                let mod = rollStr.replace(/^\.4df/ig, '').replace(/^(\d)/, '+$1').replace(/m/ig, '-').replace(/-/g, ' - ').replace(/\+/g, ' + ');
                 if (mod) {
                     rply.text += ` ${mod} = ${mathjs.evaluate(ans + mod)}`.replace(/\*/g, ' * ') + "\n";
-                    rply.text += nowCha.giveMoveCost(mainMsg[1])+"\n";
+                    rply.text += nowCha.giveMoveCost(mainMsg[1]);
                 }
             } catch (error) {
                 rply.text = `.4df 输入出错 \n${error.message}`
