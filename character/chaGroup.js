@@ -248,7 +248,9 @@ class chaData{
                 break;
         }
 
-        result+=this.name+"进行 "+skillNameStr+" 的 "+moveType;
+        result+=this.name+"进行 "+skillNameStr+" 技能的 "+moveType +"掷骰";
+
+        
         return result;
     }
 
@@ -297,7 +299,14 @@ class chaData{
             return result;
 
         let costMod = "";
+        let skillNum;
 
+        for(i=0;i<tempStr.length;i++)
+        {
+            
+        }
+            
+        
         if(tempStr.length>=2)
             costMod = 0-tempStr.length;
         
