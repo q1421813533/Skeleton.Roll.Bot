@@ -253,9 +253,26 @@ class chaData{
     giveMoveValue(midStr){
         let skillValueStr=midStr;
         let formerSign=".4df+";
-        for(i=0;i<this.skillNum;i++)
+        let isFirstSkill=true;
+        let halfSkillValue="";
+        tempStr=midStr.split(/[+-]/);
+
+        for(i=0;i<tempStr.length;i++)
         {
-            skillValueStr=skillValueStr.replace(this.skill[i].code,this.skill[i].value);
+            for(j=0;j<this.skillNum;j++)
+                if(tempStr[i]==this.skill[j].code)
+                {
+                    if(isFirstSkill==true)
+                    {
+                        skillValueStr=skillValueStr.replaceAll(this.skill[j].code,this.skill[j].value);
+                        isFirstSkill=false;
+                    }
+                    else
+                    {
+                        halfSkillValue=""+Math.floor(parseInt(this.skill[j].value)/2);
+                        skillValueStr=skillValueStr.replaceAll(this.skill[j].code,halfSkillValue);
+                    }
+                }
         }
         return formerSign+skillValueStr;
     }
