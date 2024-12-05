@@ -250,9 +250,7 @@ class chaData{
         return result;
     }
 
-    giveMoveValue(midStr){
-        console.log("midStr_Value:"+midStr);
-        
+    giveMoveValue(midStr){        
         let skillValueStr=midStr;
         let formerSign=".4df+";
         let isFirstSkill=true;
@@ -279,9 +277,7 @@ class chaData{
         return formerSign+skillValueStr;
     }
 
-    giveMoveStr(midStr){
-        console.log("midStr_Move:"+midStr);
-
+    giveMoveCost(midStr){
         let i,j;
         let result="";
         let tempStr=midStr.split(/[+-]/);
