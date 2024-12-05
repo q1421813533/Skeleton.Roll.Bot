@@ -67,18 +67,15 @@ const rollDiceCommand = async function ({
                 temp += random
                 temp = temp.replace('-1', '－').replace('0', '▉').replace('1', '＋')
             }
-            try {
-                rply.text = nowCha.giveMoveStr(mainMsg)+"\n";
-                rply.text += temp + ' = ' + ans;
-                let rollStr=nowCha.giveMoveValue(mainMsg[1]);
-                console.log("Roll:"+rollStr);
-                let mod = rollStr.replace(/^\.4df/ig, '').replace(/^(\d)/, '+$1').replace(/m/ig, '-').replace(/-/g, ' - ').replace(/\+/g, ' + ');
-                if (mod) {
-                    rply.text += ` ${mod} = ${mathjs.evaluate(ans + mod)}`.replace(/\*/g, ' * ') + "\n";
-                    rply.text += nowCha.giveMoveCost(mainMsg[1]);
-                }
-            } catch (error) {
-                rply.text = `.4df 输入出错 \n${error.message}`
+            rply.text = "";
+            rply.text = nowCha.giveMoveStr(mainMsg)+"\n";
+            rply.text += temp + ' = ' + ans;
+            let rollStr=nowCha.giveMoveValue(mainMsg[1]);
+            console.log("Roll:"+rollStr);
+            let mod = rollStr.replace(/^\.4df/ig, '').replace(/^(\d)/, '+$1').replace(/m/ig, '-').replace(/-/g, ' - ').replace(/\+/g, ' + ');
+            if (mod) {
+                rply.text += ` ${mod} = ${mathjs.evaluate(ans + mod)}`.replace(/\*/g, ' * ') + "\n";
+                rply.text += nowCha.giveMoveCost(mainMsg[1]);
             }
             return rply;
         default: {
