@@ -373,7 +373,6 @@ class chaGroup{
         let i;
         
         let chaCode=infoStr[0].substring(1,infoStr[0].length);
-         console.log(chaCode);
         let nowCha=this.findCha(chaCode);
         return nowCha;
     }
