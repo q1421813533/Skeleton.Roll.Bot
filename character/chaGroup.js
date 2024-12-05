@@ -80,6 +80,11 @@ class chaData{
         }
     }
 
+    findSkill(newName){
+        this.name=newName;
+        return "修改成功";
+    }
+
     show(){
         let result=this.name+"\n";
         let nextType="";
