@@ -248,7 +248,7 @@ class chaData{
                 break;
         }
 
-        result+=this.name+"进行 "+skillNameStr+" 技能的 "+moveType +"掷骰";
+        result+=this.name+"进行 "+skillNameStr+" 技能的 "+moveType +" 掷骰";
 
         
         return result;
