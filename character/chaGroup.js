@@ -80,7 +80,7 @@ class chaData{
         }
     }
 
-    findSkill(newName){
+    setName(newName){
         this.name=newName;
         return "修改成功";
     }
