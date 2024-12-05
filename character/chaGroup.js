@@ -280,7 +280,7 @@ class chaData{
     giveMoveStr(midStr){
         let i,j;
         let result="";
-        let tempStr=infoStr[2].split(/[+-]/);
+        let tempStr=midStr.split(/[+-]/);
         let skillNameStr="";
         let moveType="";
         let costValue;
