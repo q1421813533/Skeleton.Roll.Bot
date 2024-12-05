@@ -212,7 +212,7 @@ class chaData{
 
         let i,j;
         let result="";
-        let tempStr=infoStr[1].split(/[+-]/);
+        let tempStr=infoStr[1].split(/[+-*/]/);
         let skillNameStr="";
         let moveType="";
         
@@ -224,7 +224,7 @@ class chaData{
         }
 
         if(skillNameStr.length>1)
-            skillNameStr=skillNameStr.substring(1,skillNameStr.length-1);
+            skillNameStr=skillNameStr.substring(0,skillNameStr.length-1);
         else
             skillNameStr="无技能";
 
@@ -258,7 +258,7 @@ class chaData{
         let formerSign=".4df+";
         let isFirstSkill=true;
         let halfSkillValue="";
-        let tempStr=midStr.split(/[+-]/);
+        let tempStr=midStr.split(/[\+\-\*\/]/);
 
         for(i=0;i<tempStr.length;i++)
         {
@@ -283,7 +283,7 @@ class chaData{
     giveMoveCost(midStr){
         let i,j;
         let result="";
-        let tempStr=midStr.split(/[+-]/);
+        let tempStr=midStr.split(/[\+\-\*\/]/);
         let skillNameStr="";
         let moveType="";
         let costValue;
@@ -318,12 +318,12 @@ class chaData{
                     if(costValue<=moveSkillLevel)
                     {
                         costSign="≤";
-                        costText="是";
+                        costText="True";
                     }
                     else
                     {
                         costSign=">";
-                        costText="否";
+                        costText="False";
                     }
                     result+="("+this.skill[j].name+"):\n";
                     result+="1d"+costStatus.value+" = "+costValue+" "+costSign+" "+moveSkillLevel+"  →  "+costText+"\n";
