@@ -231,7 +231,7 @@ class chaData{
         if(skillNameStr.length>1)
             skillNameStr=skillNameStr.substring(0,skillNameStr.length-1);
         else
-            skillNameStr="无技能";
+            skillNameStr="无";
 
         switch (infoStr[2]){
             case "a":
