@@ -251,7 +251,7 @@ function findRollList(mainMsg) {
 
 	const idList = Object.values(exports);
 	const findTarget = idList.find(item => {
-		if (item && item.gameType()=='Dice:fateMod' && item.prefixs && typeof item.prefixs === 'function') {
+		if (item && item.prefixs && typeof item.prefixs === 'function') {
 			const prefixList = item.prefixs();
 			if (!Array.isArray(prefixList)) return false;
 
