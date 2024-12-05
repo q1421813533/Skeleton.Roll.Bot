@@ -1,4 +1,8 @@
 "use strict";
+
+const mongoUrl = process.env.mongoURL;
+if (!mongoUrl) return;
+
 const winston = require('winston');
 const path = require('path');
 const { format } = require('logform');
