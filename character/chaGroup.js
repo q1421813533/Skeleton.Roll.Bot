@@ -251,11 +251,13 @@ class chaData{
     }
 
     giveMoveValue(midStr){
+        console.log("midStr_Value:"+midStr);
+        
         let skillValueStr=midStr;
         let formerSign=".4df+";
         let isFirstSkill=true;
         let halfSkillValue="";
-        tempStr=midStr.split(/[+-]/);
+        let tempStr=midStr.split(/[+-]/);
 
         for(i=0;i<tempStr.length;i++)
         {
@@ -278,6 +280,8 @@ class chaData{
     }
 
     giveMoveStr(midStr){
+        console.log("midStr_Move:"+midStr);
+
         let i,j;
         let result="";
         let tempStr=midStr.split(/[+-]/);
