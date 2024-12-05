@@ -10,7 +10,7 @@ const readdir = util.promisify(fs.readdir);
 	const files = await readdir('./roll/');
 	files.forEach((file) => {
 		const name = path.basename(file, '.js');
-		if ((name !== 'index' || name !== 'demo') && file.endsWith('.js')) {
+		if ((name == 'fateMod') && (file.endsWith('.js'))) {
 			exports[name] = require(path.join(__dirname, '../roll/', file));
 		}
 	})
