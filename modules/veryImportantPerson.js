@@ -1,4 +1,8 @@
 "use strict";
+
+const mongoUrl = process.env.mongoURL;
+if (!mongoUrl) return;
+
 const schema = require('./schema.js');
 const checkMongodb = require('./dbWatchdog.js');
 let viplevel;
