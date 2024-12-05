@@ -212,7 +212,7 @@ class chaData{
 
         let i,j;
         let result="";
-        let tempStr=infoStr[1].split(/[+-*/]/);
+        let tempStr=infoStr[1].split(/[-+*/]/);
         let skillNameStr="";
         let moveType="";
         
@@ -283,7 +283,7 @@ class chaData{
     giveMoveCost(midStr){
         let i,j;
         let result="";
-        let tempStr=midStr.split(/[\+\-\*\/]/);
+        let tempStr=midStr.split(/[-+*/]/);
         let skillNameStr="";
         let moveType="";
         let costValue;
@@ -295,6 +295,11 @@ class chaData{
 
         if((spStatus==null)||(mpStatus==null))
             return result;
+
+        let costMod = "";
+
+        if(tempStr.length>=2)
+            costMod = 0-tempStr.length;
         
         for(i=0;i<tempStr.length;i++)
         {
@@ -315,6 +320,9 @@ class chaData{
 
                     costValue=Math.floor(Math.random() * Math.floor(parseInt(costStatus.value)))+1;
 
+                    if(costMod!="")
+                        costValue+=costMod;
+
                     if(costValue<=moveSkillLevel)
                     {
                         costSign="≤";
@@ -326,7 +334,8 @@ class chaData{
                         costText="False";
                     }
                     result+="("+this.skill[j].name+"):\n";
-                    result+="1d"+costStatus.value+" = "+costValue+" "+costSign+" "+moveSkillLevel+"  →  "+costText+"\n";
+                    result+="1d"+costStatus.value+costMod+" = "+costValue+" "+costSign+" "+moveSkillLevel+"  →  "+costText+"\n";
+                    costMod++;
                 }
         }
 
