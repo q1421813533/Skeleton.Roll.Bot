@@ -313,7 +313,7 @@ class chaData{
                         costStatus=mpStatus;
                     }
 
-                    costValue=Math.floor(Math.random() * Math.floor(parseInt(costSkill.value)))+1;
+                    costValue=Math.floor(Math.random() * Math.floor(parseInt(costStatus.value)))+1;
 
                     if(costValue<=moveSkillLevel)
                     {
