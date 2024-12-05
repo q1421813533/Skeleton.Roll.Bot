@@ -207,6 +207,112 @@ class chaData{
 
         return result;
     }
+
+    giveMoveStr(infoStr){
+
+        let i,j;
+        let result="";
+        let tempStr=infoStr[2].split(/[+-]/);
+        let skillNameStr="";
+        let moveType="";
+        
+        for(i=0;i<tempStr.length;i++)
+        {
+            for(j=0;j<this.skillNum;j++)
+                if(tempStr[i]==this.skill[j].code)
+                    skillNameStr+=this.skill[j].name;
+        }
+
+        if(skillNameStr.length>1)
+            skillNameStr=skillNameStr.substring(1,skillNameStr.length-1);
+
+        switch (infoStr[2]){
+            case "a":
+                moveType="攻击";
+                break;
+            case "b":
+                moveType="克服";
+                break;
+            case "c":
+                moveType="创造优势";
+                break;
+            case "d":
+                moveType="防御";
+                break;
+            case "e":
+                moveType="其他";
+                break;
+            default:
+                break;
+        }
+
+        result+=this.name+"进行 "+skillNameStr+" 的 "+moveType;
+        return result;
+    }
+
+    giveMoveValue(midStr){
+        let skillValueStr=midStr;
+        for(i=0;i<this.skillNum;i++)
+        {
+            skillValueStr=skillValueStr.replace(this.skill[i].code,this.skill[i].value);
+        }
+        return skillValueStr;
+    }
+
+    giveMoveStr(midStr){
+        let i,j;
+        let result="";
+        let tempStr=infoStr[2].split(/[+-]/);
+        let skillNameStr="";
+        let moveType="";
+        let costValue;
+        let moveSkillLevel;
+
+        let spSkill=this.findSkill("sp");
+        let mpSkill=this.findSkill("mp");
+        let costSkill,costSign,costText;   
+
+        if((spSkill==null)||(mpSkill==null))
+            return result;
+        
+        for(i=0;i<tempStr.length;i++)
+        {
+            for(j=0;j<this.skillNum;j++)
+                if(tempStr[i]==this.skill[j].code)
+                {
+                    moveSkillLevel=parseInt(this.skill[j].value);
+                    
+                    if(this.skill[j].type=="世俗')
+                    {
+                        result+="精力流失";
+                        costSkill=spSkill;
+                    }
+                    else
+                    {
+                        result+="魔力流失";
+                        costSkill=mpSkill;
+                    }
+
+                    costValue=Math.floor(Math.random() * Math.floor(parseInt(costSkill.value)))+1;
+
+                    if(costValue<=moveSkillLevel)
+                    {
+                        costSign="≤";
+                        costText="True";
+                    }
+                    else
+                    {
+                        costSign=">";
+                        costText="False";
+                    }
+                    result+="("+this.skill[j].name+"):\n";
+                    result+="1d"+costSkill.value+" = "+costValue+" "+costSign+" "+moveSkillLevel+"  →  "+costText+"\n";
+                }
+        }
+
+        return result;
+    }
+        
     
 }
 
