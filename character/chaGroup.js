@@ -305,12 +305,12 @@ class chaData{
                     if(this.skill[j].type=="世俗")
                     {
                         result+="精力耗竭";
-                        costStatus=spSkill;
+                        costStatus=spStatus;
                     }
                     else
                     {
                         result+="魔力耗竭";
-                        costStatus=mpSkill;
+                        costStatus=mpStatus;
                     }
 
                     costValue=Math.floor(Math.random() * Math.floor(parseInt(costSkill.value)))+1;
