@@ -256,7 +256,7 @@ class chaData{
         {
             skillValueStr=skillValueStr.replace(this.skill[i].code,this.skill[i].value);
         }
-        return skillValueStr;
+        return ".4df+"skillValueStr;
     }
 
     giveMoveStr(midStr){
