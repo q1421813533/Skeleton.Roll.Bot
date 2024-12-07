@@ -104,7 +104,7 @@ const rollDiceCommand = async function ({
             else
                 rply.text = "角色不存在。"
             return rply;
-        case /^round$/i.test(mainMsg[0]):
+        case /^.round$/i.test(mainMsg[0]):
             rply.text = "";
             rply.text = characterGroup.restoreAllCha(mainMsg[1]);
             return rply;
