@@ -443,9 +443,9 @@ class chaData{
                     if(costArray[0]==true) {
                         costStatusNewValue=""+(parseInt(costStatus.value)-1)
                         if(costStatus.code=="sp")
-                            result += "精力: "+ costStatus.value +" → " +costStatusNewValue+ "\n";
+                            result += "SP: "+ costStatus.value +" → " +costStatusNewValue+ "\n";
                         else
-                            result += "魔力: "+ costStatus.value +" → " +costStatusNewValue+ "\n";
+                            result += "MP: "+ costStatus.value +" → " +costStatusNewValue+ "\n";
                         costStatus.value=costStatusNewValue;
                         costStatus.hasCost=true;
                     }
