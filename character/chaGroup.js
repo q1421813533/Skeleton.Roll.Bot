@@ -191,26 +191,26 @@ class chaData{
         if((spStatus!=null)&&(spStatus.hasCost==false)&&(parseInt(spStatus.value)<parseInt(spStatus.limit)))
         {
             nowStatus=parseInt(spStatus.value)+1;
-            result+="精力： "+spStatus.value+" → "+nowStatus+"\n";
+            result+="精力： "+spStatus.value+" → "+nowStatus+"/"+spStatus.limit+"\n";
             spStatus.value=""+nowStatus;
             spStatus.hasCost=false;
         }
         else if(spStatus!=null)
         {
-            result+="精力： "+spStatus.value+"\n";
+            result+="精力： "+spStatus.value+"/"+spStatus.limit+"\n";
             spStatus.hasCost=false;
         }
 
         if((mpStatus!=null)&&(mpStatus.hasCost==false)&&(parseInt(mpStatus.value)<parseInt(mpStatus.limit)))
         {
             nowStatus=parseInt(mpStatus.value)+1;
-            result+="魔力： "+mpStatus.value+" → "+nowStatus+"\n";
+            result+="魔力： "+mpStatus.value+" → "+nowStatus+"/"+mpStatus.limit+"\n";
             mpStatus.value=""+nowStatus;
             mpStatus.hasCost=false;
         }
         else if(mpStatus!=null)
         {
-            result+="魔力： "+mpStatus.value+"\n";
+            result+="魔力： "+mpStatus.value+"/"+mpStatus.limit+"\n";
             mpStatus.hasCost=false;
         }
 
