@@ -364,16 +364,13 @@ class chaData{
             for(j=0;j<this.skillNum;j++)
                 if(tempStr[i]==this.skill[j].code)
                 {
+                    this.skill[j].tempVal=this.skill[j].value;
+                    
                     if((this.skill[j].type=="世俗")&&(spStatus!=null)&&(parseInt(spStatus.value)<parseInt(spStatus.limit))&&(parseInt(this.skill[j].value)>parseInt(spStatus.value)))
                         this.skill[j].tempVal=spStatus.value;
-                    else
-                        this.skill[j].tempVal=this.skill[j].value;
-
                     if((this.skill[j].type=="超凡")&&(mpStatus!=null)&&(parseInt(mpStatus.value)<parseInt(mpStatus.limit))&&(parseInt(this.skill[j].value)>parseInt(mpStatus.value)))
                         this.skill[j].tempVal=mpStatus.value;
-                    else
-                        this.skill[j].tempVal=this.skill[j].value;
-
+                        
                     if(parseInt(this.skill[j].tempVal)>parseInt(this.skill[j].downVal))
                         this.skill[j].tempVal=this.skill[j].downVal;
 
