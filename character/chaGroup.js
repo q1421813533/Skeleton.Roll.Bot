@@ -99,7 +99,7 @@ class chaData{
 
         for(i=0;i<this.statusNum;i++)
         {
-            result+=this.status[i].name+": "+this.status[i].value+"/"+this.status[i].limit; 
+            result+=this.status[i].name+": "+this.status[i].value+"/"+this.status[i].limit;
             if(i<this.statusNum-1)
                 result+=",";
             else
@@ -164,7 +164,7 @@ class chaData{
 
         if(infoStr.length<2)
             return result;
-        
+
         for(i=0;i<this.skillNum;i++)
         {
             for(j=1;j<infoStr.length;j++)
@@ -185,8 +185,18 @@ class chaData{
         if(this.onstage==false)
             return result;
 
-        let spStatus=this.findStatus("sp"),mpStatus=this.findStatus("mp");
+        let hpStatus=this.findStatus("hp"),spStatus=this.findStatus("sp"),mpStatus=this.findStatus("mp");
         let nowStatus;
+
+        if(hpStatus!=null)
+        {
+            result+="健康: ";
+            if(this.faction=="enemy")
+                result+="?"+"\n";
+            else
+                result+=hpStatus.value+"/"+hpStatus.limit+"\n";
+        }
+
 
         if((spStatus!=null)&&(spStatus.hasCost==false)&&(parseInt(spStatus.value)<parseInt(spStatus.limit)))
         {
@@ -231,7 +241,7 @@ class chaData{
         let i;
 
         for(i=infoStr.length-1;i>0;i--)
-        {            
+        {
             if(/^[+-]?\d+$/.test(infoStr[i]))
             {
                 nowAdjust=infoStr[i];
@@ -268,7 +278,7 @@ class chaData{
                 }
             }
         }
-        
+
         if(result=="")
             result="输入有误。"
 
@@ -282,7 +292,7 @@ class chaData{
         let tempStr=infoStr[1].split(/[-+*/]/);
         let skillNameStr="";
         let moveType="";
-        
+
         for(i=0;i<tempStr.length;i++)
         {
             for(j=0;j<this.skillNum;j++)
@@ -317,7 +327,7 @@ class chaData{
 
         result+=this.name+"进行 "+skillNameStr+" 技能的 "+moveType +" 掷骰";
 
-        
+
         return result;
     }
 
@@ -365,12 +375,12 @@ class chaData{
                 if(tempStr[i]==this.skill[j].code)
                 {
                     this.skill[j].tempVal=this.skill[j].value;
-                    
+
                     if((this.skill[j].type=="世俗")&&(spStatus!=null)&&(parseInt(spStatus.value)<parseInt(spStatus.limit))&&(parseInt(this.skill[j].value)>parseInt(spStatus.value)))
                         this.skill[j].tempVal=spStatus.value;
                     if((this.skill[j].type=="超凡")&&(mpStatus!=null)&&(parseInt(mpStatus.value)<parseInt(mpStatus.limit))&&(parseInt(this.skill[j].value)>parseInt(mpStatus.value)))
                         this.skill[j].tempVal=mpStatus.value;
-                        
+
                     if(parseInt(this.skill[j].tempVal)>parseInt(this.skill[j].downVal))
                         this.skill[j].tempVal=this.skill[j].downVal;
 
@@ -463,10 +473,10 @@ class chaData{
             if((/^\d+$/.test(tempStr[i]))==false)
                 skillNum++;
         }
-        
+
         if(skillNum>=2)
             costMod = 0-skillNum;
-        
+
         for(i=0;i<tempStr.length;i++)
         {
             for(j=0;j<this.skillNum;j++)
@@ -509,8 +519,8 @@ class chaData{
 
         return result;
     }
-        
-    
+
+
 }
 
 class chaGroup{
