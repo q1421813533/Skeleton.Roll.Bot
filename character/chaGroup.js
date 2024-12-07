@@ -354,9 +354,9 @@ class chaData{
                 else {
                     for(j=0;j<this.skillNum;j++){
                         nowSkill=null;
-                        if((this.skill[j].type="超凡")&&(tempStr[0]=="mp"))
+                        if((this.skill[j].type=="超凡")&&(tempStr[0]=="mp"))
                             nowSkill=this.skill[j];
-                        else if((this.skill[j].type="世俗")&&(tempStr[0]=="sp")&&(this.skill[j].code!="zn")&&(this.skill[j].code!="tz"))
+                        else if((this.skill[j].type=="世俗")&&(tempStr[0]=="sp")&&(this.skill[j].code!="zn")&&(this.skill[j].code!="tz"))
                             nowSkill=this.skill[j];
                         if ((nowSkill != null) && (/^\d+$/.test(tempStr[1])) && (parseInt(tempStr[1]) < parseInt(nowSkill.value)))
                             nowSkill.downVal = "" + parseInt(tempStr[1]);
