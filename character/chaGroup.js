@@ -387,10 +387,10 @@ class chaData{
 
         let spStatus=this.findStatus("sp");
         let mpStatus=this.findStatus("mp");
-        let costStatus,costStatusNewValue;
+        let spSKill=this.findSkill("tz");
+        let mpSKill=this.findSkill("zn");
+        let costStatus,costStatusNewValue,costSkill;
 
-        if((spStatus==null)||(mpStatus==null))
-            return result;
 
         let costArray=new Array();
 
@@ -400,25 +400,29 @@ class chaData{
                 if(tempStr[i]==this.skill[j].code)
                 {
                     moveSkillLevel=parseInt(this.skill[j].tempVal);
-                    if(this.skill[j].type=="世俗")
+                    if((this.skill[j].type=="世俗")&&(spStatus!=null)&&(spSKill!=null))
                     {
                         result+="\n精力消耗";
                         costStatus=spStatus;
+                        costSkill=spSKill;
                     }
-                    else
+                    else if((this.skill[j].type=="超凡")&&(mpStatus!=null)&&(mpSKill!=null))
                     {
                         result+="\n魔力消耗";
                         costStatus=mpStatus;
+                        costSkill=mpSKill;
                     }
+                    else
+                        continue;
 
-                    costArray=simpleFateDice(parseInt(costStatus.value),moveSkillLevel);
+                    costArray=simpleFateDice(parseInt(costSkill.value),moveSkillLevel);
 
                     result+="("+this.skill[j].name+"):\n";
                     result+=costArray[1]+"\n";
 
                     if(costArray[0]==true) {
                         costStatusNewValue=""+(parseInt(costStatus.value)-1)
-                        if(costStatus.name=="sp")
+                        if(costStatus.code=="sp")
                             result += "精力: "+ costStatus.value +" → " +costStatusNewValue+ "\n";
                         else
                             result += "魔力: "+ costStatus.value +" → " +costStatusNewValue+ "\n";
