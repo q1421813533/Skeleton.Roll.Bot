@@ -332,13 +332,28 @@ class chaData{
 
         for(i=infoStr.length-1;i>2;i--)
         {
-            if((infoStr[i]==null)&&(infoStr[i].indexOf("=")!=-1)) {
+            if((infoStr[i]!=null)&&(infoStr[i].indexOf("=")!=-1)) {
                 tempStr = infoStr[i].split("=");
-                nowSkill = this.findSkill(tempStr[0]);
-                if((nowSkill!=null)&&(/^\d+$/.test(tempStr[1]))&&(parseInt(tempStr[1])<parseInt(nowSkill.value)))
-                    nowSkill.downVal=""+parseInt(tempStr[1]);
-                else if(nowSkill!=null)
-                    nowSkill.downVal=nowSkill.value;
+                if((tempStr[0]!="sp")&&(tempStr[0]!="mp")) {
+                    nowSkill = this.findSkill(tempStr[0]);
+                    if ((nowSkill != null) && (/^\d+$/.test(tempStr[1])) && (parseInt(tempStr[1]) < parseInt(nowSkill.value)))
+                        nowSkill.downVal = "" + parseInt(tempStr[1]);
+                    else if (nowSkill != null)
+                        nowSkill.downVal = nowSkill.value;
+                }
+                else {
+                    for(j=0;j<this.skillNum;j++){
+                        nowSkill=null;
+                        if((this.skill[j].type="超凡")&&(tempStr[0]=="mp"))
+                            nowSkill=this.skill[j];
+                        else if((this.skill[j].type="世俗")&&(tempStr[0]=="sp")&&(this.skill[j].code!="zn")&&(this.skill[j].code!="tz"))
+                            nowSkill=this.skill[j];
+                        if ((nowSkill != null) && (/^\d+$/.test(tempStr[1])) && (parseInt(tempStr[1]) < parseInt(nowSkill.value)))
+                            nowSkill.downVal = "" + parseInt(tempStr[1]);
+                        else if (nowSkill != null)
+                            nowSkill.downVal = nowSkill.value;
+                    }
+                }
             }
         }
 
