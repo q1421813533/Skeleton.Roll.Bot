@@ -129,9 +129,9 @@ class chaData{
 
         let result="";
         if(stageStatus==true)
-            result=this.name+=" 已经出现!";
+            result=this.name+" 已经出现!";
         else if(this.faction!="pc")
-            result=this.name+=" 已经消失!"
+            result=this.name+" 已经消失!"
         else
             result="设置完毕。"
 
