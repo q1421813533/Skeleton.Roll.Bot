@@ -415,7 +415,12 @@ class chaData{
                     else
                         continue;
 
-                    costArray=simpleFateDice(parseInt(costSkill.value),moveSkillLevel);
+                    if((spStatus!=null)&&(parseInt(spStatus.value)<parseInt(spStatus.limit))&&(parseInt(costSkill.value)>parseInt(spStatus.value)))
+                        costSkill.tempVal=spStatus.value;
+                    else
+                        costSkill.tempVal=spStatus.value;
+
+                    costArray=simpleFateDice(parseInt(costSkill.tempVal),moveSkillLevel);
 
                     result+="("+this.skill[j].name+"):\n";
                     result+=costArray[1]+"\n";
@@ -587,7 +592,7 @@ function simpleFateDice(modValue,difValue){
     else if(modValue<0)
         resultStr+=" - "+modValue+" = "+resultValue;
 
-    if(resultValue<=modValue) {
+    if(resultValue<=parseInt(difValue)) {
         resultArray[0]=true;
         resultStr += " ≤ " + difValue + " → True";
     }
