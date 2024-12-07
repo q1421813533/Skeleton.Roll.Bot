@@ -190,7 +190,7 @@ class chaData{
 
         if(hpStatus!=null)
         {
-            result+="健康: ";
+            result+="健康： ";
             if(this.faction=="enemy")
                 result+="?"+"\n";
             else
