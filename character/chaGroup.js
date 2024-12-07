@@ -430,12 +430,14 @@ class chaData{
                     else
                         continue;
 
-                    if((spStatus!=null)&&(parseInt(spStatus.value)<parseInt(spStatus.limit))&&(parseInt(costSkill.value)>parseInt(spStatus.value)))
+                    /*if((spStatus!=null)&&(parseInt(spStatus.value)<parseInt(spStatus.limit))&&(parseInt(costSkill.value)>parseInt(spStatus.value)))
                         costSkill.tempVal=spStatus.value;
-                    else
+                    elseval
                         costSkill.tempVal=spStatus.value;
 
-                    costArray=simpleFateDice(parseInt(costSkill.tempVal),moveSkillLevel);
+                    costArray=simpleFateDice(parseInt(costSkill.tempVal),moveSkillLevel);*/
+
+                    costArray=simpleFateDice(parseInt(costSkill.value),moveSkillLevel);
 
                     result+="("+this.skill[j].name+"):\n";
                     result+=costArray[1]+"\n";
