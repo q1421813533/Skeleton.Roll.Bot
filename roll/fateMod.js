@@ -30,7 +30,7 @@ const prefixs = function () {
     //如前面是 /^1$/ig, 後面是/^1D100$/ig, 即 prefixs 變成 1 1D100 
     ///^(?=.*he)(?!.*da).*$/ig
     return [{
-        first: /(^[.]sln$)|(^[.]xx$)|(^[.]ay$)|(^[.]boss$)|(^[.]gm)/ig,
+        first: /(^[.]sln$)|(^[.]xx$)|(^[.]ay$)|(^[.]boss$)|(^[.]round$)|(^[.]gm)/ig,
         second: null
     }]
 }
@@ -104,9 +104,9 @@ const rollDiceCommand = async function ({
             else
                 rply.text = "角色不存在。"
             return rply;
-        case /^round$/i.test(mainMsg[1]):
+        case /^round$/i.test(mainMsg[0]):
             rply.text = "";
-            rply.text = characterGroup.restoreAllCha(mainMsg[2]);
+            rply.text = characterGroup.restoreAllCha(mainMsg[1]);
             return rply;
         case /^name$/i.test(mainMsg[1]):
             if((nowCha!=null)&&(mainMsg[2]!=null))
