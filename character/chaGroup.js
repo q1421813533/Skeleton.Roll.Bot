@@ -10,6 +10,7 @@ class chaStatus{
         this.code=statusCode;
         this.value=statusValue;
         this.limit=statusValue;
+        this.hasCost=false;
     }
 }
 
@@ -19,17 +20,21 @@ class chaSkill{
         this.code=skillCode;
         this.value=skillValue;
         this.type=skillType;
+        this.tempVal=0;
+        this.downVal=skillValue;
     }
 }
 
 class chaData{
-    constructor(chaName,chaCode,attrArray){
+    constructor(chaName,chaCode,chaFaction,chaStage,attrArray){
         this.name=chaName;
         this.code=chaCode;
         this.status=new Array();
         this.statusNum=0;
         this.skill=new Array();
         this.skillNum=0;
+        this.faction=chaFaction;
+        this.onstage=chaStage;
 
         let i,j;
         let inputParts;
@@ -85,7 +90,7 @@ class chaData{
         return "修改成功";
     }
 
-    show(){
+    info(){
         let result=this.name+"\n";
         let nextType="";
         let nowType="";
@@ -116,6 +121,20 @@ class chaData{
             else
                 result+="\n";
         }
+        return result;
+    }
+
+    changeStage(stageStatus){
+        this.onstage=stageStatus;
+
+        let result="";
+        if(stageStatus==true)
+            result=this.name+=" 已经出现!";
+        else if(this.faction!="pc")
+            result=this.name+=" 已经消失!"
+        else
+            result="设置完毕。"
+
         return result;
     }
 
@@ -158,6 +177,49 @@ class chaData{
 
         return result;
     }
+
+    restoreSPandMP(){
+
+        let result="";
+
+        if(this.onstage==false)
+            return result;
+
+        let spStatus=this.findStatus("sp"),mpStatus=this.findStatus("mp");
+        let nowStatus;
+
+        if((spStatus!=null)&&(spStatus.hasCost==false)&&(parseInt(spStatus.value)<parseInt(spStatus.limit)))
+        {
+            nowStatus=parseInt(spStatus.value)+1;
+            result+="精力： "+spStatus.value+" → "+nowStatus+"\n";
+            spStatus.value=""+nowStatus;
+            spStatus.hasCost=false;
+        }
+        else if(spStatus!=null)
+        {
+            result+="精力： "+spStatus.value+"\n";
+            spStatus.hasCost=false;
+        }
+
+        if((mpStatus!=null)&&(mpStatus.hasCost==false)&&(parseInt(mpStatus.value)<parseInt(mpStatus.limit)))
+        {
+            nowStatus=parseInt(mpStatus.value)+1;
+            result+="魔力： "+mpStatus.value+" → "+nowStatus+"\n";
+            mpStatus.value=""+nowStatus;
+            mpStatus.hasCost=false;
+        }
+        else if(mpStatus!=null)
+        {
+            result+="魔力： "+mpStatus.value+"\n";
+            mpStatus.hasCost=false;
+        }
+
+        if(result!="")
+            result=this.name+":\n"+result+"\n";
+
+        return result;
+    }
+
 
     adjustAttrValue(infoStr){
         let result = "";
@@ -259,29 +321,59 @@ class chaData{
         return result;
     }
 
-    giveMoveValue(midStr){
+    giveMoveValue(infoStr){
         let i,j;
-        let skillValueStr=midStr;
+        let skillValueStr=infoStr[1];
         let formerSign=".4df+";
         let isFirstSkill=true;
         let halfSkillValue="";
-        let tempStr=midStr.split(/[\+\-\*\/]/);
+        let tempStr,nowSkill;
+        let spStatus=this.findStatus("sp"),mpStatus=this.findStatus("mp");
+
+        for(i=infoStr.length-1;i>2;i--)
+        {
+            if((infoStr[i]==null)&&(infoStr[i].indexOf("=")!=-1)) {
+                tempStr = infoStr[i].split("=");
+                nowSkill = this.findSkill(tempStr[0]);
+                if((nowSkill!=null)&&(/^\d+$/.test(tempStr[1]))&&(parseInt(tempStr[1])<parseInt(nowSkill.value)))
+                    nowSkill.downVal=""+parseInt(tempStr[1]);
+                else if(nowSkill!=null)
+                    nowSkill.downVal=nowSkill.value;
+            }
+        }
+
+        tempStr=infoStr[1].split(/[\+\-\*\/]/);
 
         for(i=0;i<tempStr.length;i++)
         {
             for(j=0;j<this.skillNum;j++)
                 if(tempStr[i]==this.skill[j].code)
                 {
+                    if((this.skill[j].type=="世俗")&&(spStatus!=null)&&(parseInt(spStatus.value)<parseInt(spStatus.limit))&&(parseInt(this.skill[j].value)>parseInt(spStatus.value)))
+                        this.skill[j].tempVal=spStatus.value;
+                    else
+                        this.skill[j].tempVal=this.skill[j].value;
+
+                    if((this.skill[j].type=="超凡")&&(mpStatus!=null)&&(parseInt(mpStatus.value)<parseInt(mpStatus.limit))&&(parseInt(this.skill[j].value)>parseInt(mpStatus.value)))
+                        this.skill[j].tempVal=mpStatus.value;
+                    else
+                        this.skill[j].tempVal=this.skill[j].value;
+
+                    if(parseInt(this.skill[j].tempVal)>parseInt(this.skill[j].downVal))
+                        this.skill[j].tempVal=this.skill[j].downVal;
+
                     if(isFirstSkill==true)
                     {
-                        skillValueStr=skillValueStr.replaceAll(this.skill[j].code,this.skill[j].value);
+                        skillValueStr=skillValueStr.replaceAll(this.skill[j].code,this.skill[j].tempVal);
                         isFirstSkill=false;
                     }
                     else
                     {
-                        halfSkillValue=""+Math.floor(parseInt(this.skill[j].value)/2);
+                        halfSkillValue=""+Math.floor(parseInt(this.skill[j].tempVal)/2);
                         skillValueStr=skillValueStr.replaceAll(this.skill[j].code,halfSkillValue);
                     }
+
+                    this.skill[j].downVal=this.skill[j].value;
                 }
         }
         return formerSign+skillValueStr;
@@ -291,20 +383,57 @@ class chaData{
         let i,j;
         let result="";
         let tempStr=midStr.split(/[-+*/]/);
-        let skillNameStr="";
-        let moveType="";
-        let costValue;
         let moveSkillLevel;
 
         let spStatus=this.findStatus("sp");
         let mpStatus=this.findStatus("mp");
-        let costStatus,costSign,costText,costFinal;   
+        let costStatus,costStatusNewValue;
 
         if((spStatus==null)||(mpStatus==null))
             return result;
 
+        let costArray=new Array();
+
+        for(i=0;i<tempStr.length;i++)
+        {
+            for(j=0;j<this.skillNum;j++)
+                if(tempStr[i]==this.skill[j].code)
+                {
+                    moveSkillLevel=parseInt(this.skill[j].tempVal);
+                    if(this.skill[j].type=="世俗")
+                    {
+                        result+="\n精力消耗";
+                        costStatus=spStatus;
+                    }
+                    else
+                    {
+                        result+="\n魔力消耗";
+                        costStatus=mpStatus;
+                    }
+
+                    costArray=simpleFateDice(parseInt(costStatus.value),moveSkillLevel);
+
+                    result+="("+this.skill[j].name+"):\n";
+                    result+=costArray[1]+"\n";
+
+                    if(costArray[0]==true) {
+                        costStatusNewValue=""+(parseInt(costStatus.value)-1)
+                        if(costStatus.name=="sp")
+                            result += "精力: "+ costStatus.value +" → " +costStatusNewValue+ "\n";
+                        else
+                            result += "魔力: "+ costStatus.value +" → " +costStatusNewValue+ "\n";
+                        costStatus.value=costStatusNewValue;
+                        costStatus.hasCost=true;
+                    }
+                }
+        }
+
+        /*
+
+        let skillNum;
+        let costValue;
         let costMod = "";
-        let skillNum = 0;
+        let costSign,costText,costFinal;
 
         for(i=0;i<tempStr.length;i++)
         {
@@ -353,7 +482,7 @@ class chaData{
                     result+="1d"+costStatus.value+"["+costValue+"]"+costMod+" = "+costFinal+" "+costSign+" "+moveSkillLevel+"  →  "+costText+"\n";
                     costMod++;
                 }
-        }
+        }*/
 
         return result;
     }
@@ -380,15 +509,15 @@ class chaGroup{
         return null;
     }
 
-    addCha(chaName,chaCode,attrArray){
+    addCha(chaName,chaCode,chaFaction,chaStage,attrArray){
         if((this.findCha(chaCode)==null)&&(this.groupSize<groupSizeLimit)){
-            this.members[this.groupSize]=new chaData(chaName,chaCode,attrArray);
+            this.members[this.groupSize]=new chaData(chaName,chaCode,chaFaction,chaStage,attrArray);
             this.groupSize++;
         }
     }
 
     delCha(chaCode){
-        for(i=0;i<this.groupSize;i++)
+        for(let i=0;i<this.groupSize;i++)
             if(this.members[i].code==chaCode)
             {
                 this.members.splice(i,1);
@@ -399,12 +528,71 @@ class chaGroup{
 
     getNowCha(infoStr){
         let i;
-        
+
         let chaCode=infoStr[0].substring(1,infoStr[0].length);
         let nowCha=this.findCha(chaCode);
         return nowCha;
     }
 
+    restoreAllCha(nowRound){
+        let i;
+        let result=""
+
+        if((nowRound!=null)&&(nowRound!=""))
+            result+="第 "+nowRound+" 轮"+"\n\n";
+
+        for(i=0;i<this.groupSize;i++)
+        {
+            result+=this.members[i].restoreSPandMP();
+        }
+
+        if(result=="")
+            result="没有人物会显示精力和魔力。"
+
+        return result;
+    }
+
+}
+
+function simpleFateDice(modValue,difValue){
+
+    let resultArray=new Array();
+    let resultStr="";
+    let resultValue=0;
+
+    let nowDiceValue;
+
+    let diceNum=4;
+
+    let i;
+
+    for(i=0;i<diceNum;i++){
+        nowDiceValue=Math.floor(Math.random()*3-1);
+        resultValue+=nowDiceValue;
+        if(nowDiceValue==-1)
+            resultStr+="－";
+        else if(nowDiceValue==0)
+            resultStr+="▉";
+        else if(nowDiceValue==1)
+            resultStr+="＋";
+    }
+    resultStr+=" = "+resultValue;
+    resultValue+=modValue;
+    if(modValue>0)
+        resultStr+=" + "+modValue+" = "+resultValue;
+    else if(modValue<0)
+        resultStr+=" - "+modValue+" = "+resultValue;
+
+    if(resultValue<=modValue) {
+        resultArray[0]=true;
+        resultStr += " ≤ " + difValue + " → True";
+    }
+    else {
+        resultArray[0]=false;
+        resultStr += " > " + difValue + " → False";
+    }
+    resultArray[1]=resultStr;
+    return resultArray;
 }
 
 module.exports = chaGroup;
