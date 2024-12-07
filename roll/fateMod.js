@@ -73,7 +73,7 @@ const rollDiceCommand = async function ({
                 rply.text = "";
                 rply.text = nowCha.giveMoveStr(mainMsg)+"\n";
                 rply.text += temp + ' = ' + ans;
-                let rollStr=nowCha.giveMoveValue(mainMsg[1]);
+                let rollStr=nowCha.giveMoveValue(mainMsg);
                 let mod = rollStr.replace(/^\.4df/ig, '').replace(/^(\d)/, '+$1').replace(/m/ig, '-').replace(/-/g, ' - ').replace(/\+/g, ' + ');
                 if (mod) {
                     rply.text += ` ${mod} = ${mathjs.evaluate(ans + mod)}`.replace(/\*/g, ' * ') + "\n";
