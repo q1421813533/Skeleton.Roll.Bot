@@ -616,13 +616,13 @@ function simpleFateDice(modValue,difValue){
     else if(modValue<0)
         resultStr+=" - "+modValue+" = "+resultValue;
 
-    if(resultValue<=parseInt(difValue)) {
+    if(resultValue<parseInt(difValue)) {
         resultArray[0]=true;
-        resultStr += " ≤ " + difValue + " → True";
+        resultStr += " < " + difValue + " → True";
     }
     else {
         resultArray[0]=false;
-        resultStr += " > " + difValue + " → False";
+        resultStr += " ≥ " + difValue + " → False";
     }
     resultArray[1]=resultStr;
     return resultArray;
