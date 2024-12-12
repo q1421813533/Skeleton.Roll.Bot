@@ -2,7 +2,8 @@ const statusNumLimit = 50;
 const skillNumLimit = 50;
 const groupSizeLimit = 50;
 const statusType = "基础";
-
+const normalSkillType = "世俗";
+const magicSkillType = "超凡";
 
 class chaStatus{
     constructor(statusName,statusCode,statusValue){
@@ -11,6 +12,9 @@ class chaStatus{
         this.value=statusValue;
         this.limit=statusValue;
         this.hasCost=false;
+        this.hasLimit=true;
+        if(statusCode=="fate")
+            this.hasLimit=false;
     }
 }
 
@@ -178,6 +182,38 @@ class chaData{
         return result;
     }
 
+    restoreFateStatus(){
+        if(this.onstage==false)
+            return "";
+
+        let fateStatus=this.findStatus("fate");
+        if(fateStatus!=null)
+        {
+            fateStatus.value=fateStatus.limit;
+        }
+        return "重振完成"
+    }
+
+    restoreAllStatus(){
+        if(this.onstage==false)
+            return "";
+
+        let hpStatus=this.findStatus("hp"),spStatus=this.findStatus("sp"),mpStatus=this.findStatus("mp");
+        if(hpStatus!=null)
+        {
+            hpStatus.value=hpStatus.limit;
+        }
+        if(spStatus!=null)
+        {
+            spStatus.value=spStatus.limit;
+        }
+        if(mpStatus!=null)
+        {
+            mpStatus.value=mpStatus.limit;
+        }
+        return "恢复完成"
+    }
+
     restoreSPandMP(){
 
         let result="";
@@ -191,10 +227,7 @@ class chaData{
         if(hpStatus!=null)
         {
             result+="健康： ";
-            if(this.faction=="enemy")
-                result+="?"+"\n";
-            else
-                result+=hpStatus.value+"/"+hpStatus.limit+"\n";
+            result+=hpStatus.value+"/"+hpStatus.limit+"\n";
         }
 
 
@@ -263,13 +296,15 @@ class chaData{
                         if(/^[+-]/.test(nowAdjust)){
                             nowAttr.value=parseInt(nowAttr.value)+parseInt(nowAdjust);
                         }
-                        else
+                        else if(nowType=="status")
+                            nowAttr.limit=parseInt(nowAdjust);
+                        else if(nowType=="skill")
                             nowAttr.value=parseInt(nowAdjust);
                         nowAdjust=null;
                     }
                     if(nowType=="status")
                     {
-                        if(parseInt(nowAttr.value)>parseInt(nowAttr.limit))
+                        if((nowAttr.hasLimit==true)&&(parseInt(nowAttr.value)>parseInt(nowAttr.limit)))
                             nowAttr.value=""+nowAttr.limit;
                         result+=nowAttr.name+": "+nowAttr.value+"/"+nowAttr.limit+"\n";
                     }
@@ -321,12 +356,14 @@ class chaData{
             case "e":
                 moveType="其他";
                 break;
+            case "r":
+                moveType="重新";
+                break;
             default:
                 break;
         }
 
         result+=this.name+"进行 "+skillNameStr+" 技能的 "+moveType +" 掷骰";
-
 
         return result;
     }
@@ -354,9 +391,9 @@ class chaData{
                 else {
                     for(j=0;j<this.skillNum;j++){
                         nowSkill=null;
-                        if((this.skill[j].type=="超凡")&&(tempStr[0]=="mp"))
+                        if((this.skill[j].type==magicSkillType)&&(tempStr[0]=="mp"))
                             nowSkill=this.skill[j];
-                        else if((this.skill[j].type=="世俗")&&(tempStr[0]=="sp")&&(this.skill[j].code!="zn")&&(this.skill[j].code!="tz"))
+                        else if((this.skill[j].type==normalSkillType)&&(tempStr[0]=="sp")&&(this.skill[j].code!="zn")&&(this.skill[j].code!="tz"))
                             nowSkill=this.skill[j];
                         if ((nowSkill != null) && (/^\d+$/.test(tempStr[1])) && (parseInt(tempStr[1]) < parseInt(nowSkill.value)))
                             nowSkill.downVal = "" + parseInt(tempStr[1]);
@@ -376,9 +413,9 @@ class chaData{
                 {
                     this.skill[j].tempVal=this.skill[j].value;
 
-                    if((this.skill[j].type=="世俗")&&(spStatus!=null)&&(parseInt(spStatus.value)<parseInt(spStatus.limit))&&(parseInt(this.skill[j].value)>parseInt(spStatus.value)))
+                    if((this.skill[j].type==normalSkillType)&&(spStatus!=null)&&(parseInt(spStatus.value)<parseInt(spStatus.limit))&&(parseInt(this.skill[j].value)>parseInt(spStatus.value)))
                         this.skill[j].tempVal=spStatus.value;
-                    if((this.skill[j].type=="超凡")&&(mpStatus!=null)&&(parseInt(mpStatus.value)<parseInt(mpStatus.limit))&&(parseInt(this.skill[j].value)>parseInt(mpStatus.value)))
+                    if((this.skill[j].type==magicSkillType)&&(mpStatus!=null)&&(parseInt(mpStatus.value)<parseInt(mpStatus.limit))&&(parseInt(this.skill[j].value)>parseInt(mpStatus.value)))
                         this.skill[j].tempVal=mpStatus.value;
 
                     if(parseInt(this.skill[j].tempVal)>parseInt(this.skill[j].downVal))
@@ -422,13 +459,13 @@ class chaData{
                 if(tempStr[i]==this.skill[j].code)
                 {
                     moveSkillLevel=parseInt(this.skill[j].tempVal);
-                    if((this.skill[j].type=="世俗")&&(spStatus!=null)&&(spSKill!=null))
+                    if((this.skill[j].type==normalSkillType)&&(spStatus!=null)&&(spSKill!=null))
                     {
                         result+="\n精力消耗";
                         costStatus=spStatus;
                         costSkill=spSKill;
                     }
-                    else if((this.skill[j].type=="超凡")&&(mpStatus!=null)&&(mpSKill!=null))
+                    else if((this.skill[j].type==magicSkillType)&&(mpStatus!=null)&&(mpSKill!=null))
                     {
                         result+="\n魔力消耗";
                         costStatus=mpStatus;
@@ -483,7 +520,7 @@ class chaData{
                 if(tempStr[i]==this.skill[j].code)
                 {
                     moveSkillLevel=parseInt(this.skill[j].value);
-                    if(this.skill[j].type=="世俗")
+                    if(this.skill[j].type==normalSkillType)
                     {
                         result+="精力耗竭";
                         costStatus=spStatus;
