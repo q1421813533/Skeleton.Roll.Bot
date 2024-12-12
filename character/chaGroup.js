@@ -184,19 +184,20 @@ class chaData{
 
     restoreFateStatus(){
         if(this.onstage==false)
-            return "";
+            return "角色未在场";
 
         let fateStatus=this.findStatus("fate");
         if(fateStatus!=null)
         {
-            fateStatus.value=fateStatus.limit;
+            if(parseInt(fateStatus.value)<parseInt(fateStatus.limit))
+                fateStatus.value=fateStatus.limit;
         }
         return "重振完成"
     }
 
     restoreAllStatus(){
         if(this.onstage==false)
-            return "";
+            return "角色未在场";
 
         let hpStatus=this.findStatus("hp"),spStatus=this.findStatus("sp"),mpStatus=this.findStatus("mp");
         if(hpStatus!=null)
@@ -219,7 +220,7 @@ class chaData{
         let result="";
 
         if(this.onstage==false)
-            return result;
+            return "角色未在场";
 
         let hpStatus=this.findStatus("hp"),spStatus=this.findStatus("sp"),mpStatus=this.findStatus("mp");
         let nowStatus;
