@@ -59,7 +59,7 @@ const rollDiceCommand = async function ({
             rply.text = await this.getHelpMessage();
             rply.quotes = true;
             return rply;
-        case /^[abcde]$/i.test(mainMsg[2]):
+        case /^[abcder]$/i.test(mainMsg[2]):
             let random = '',
                 temp = '';
             let ans = 0
@@ -75,13 +75,27 @@ const rollDiceCommand = async function ({
                 rply.text += temp + ' = ' + ans;
                 let rollStr=nowCha.giveMoveValue(mainMsg);
                 let mod = rollStr.replace(/^\.4df/ig, '').replace(/^(\d)/, '+$1').replace(/m/ig, '-').replace(/-/g, ' - ').replace(/\+/g, ' + ');
-                if (mod) {
+                if ((mod)&&(!(/^r$/i.test(mainMsg[2])))) {
                     rply.text += ` ${mod} = ${mathjs.evaluate(ans + mod)}`.replace(/\*/g, ' * ') + "\n";
                     rply.text += nowCha.giveMoveCost(mainMsg[1]);
                 }
             } catch (error) {
                 rply.text = `输入有误。\n${error.message}`
             }
+            return rply;
+        case /^res$/i.test(mainMsg[1]):
+            rply.text = "";
+            if(nowCha!=null)
+                rply.text = nowCha.restoreAllStatus();
+            else
+                rply.text = "角色不存在。"
+            return rply;
+        case /^ref$/i.test(mainMsg[1]):
+            rply.text = "";
+            if(nowCha!=null)
+                rply.text = nowCha.restoreFateStatus();
+            else
+                rply.text = "角色不存在。"
             return rply;
         case /^info$/i.test(mainMsg[1]):
             rply.text = "";
