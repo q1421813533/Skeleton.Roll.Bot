@@ -75,9 +75,10 @@ const rollDiceCommand = async function ({
                 rply.text += temp + ' = ' + ans;
                 let rollStr=nowCha.giveMoveValue(mainMsg);
                 let mod = rollStr.replace(/^\.4df/ig, '').replace(/^(\d)/, '+$1').replace(/m/ig, '-').replace(/-/g, ' - ').replace(/\+/g, ' + ');
-                if ((mod)&&(!(/^r$/i.test(mainMsg[2])))) {
+                if (mod) {
                     rply.text += ` ${mod} = ${mathjs.evaluate(ans + mod)}`.replace(/\*/g, ' * ') + "\n";
-                    rply.text += nowCha.giveMoveCost(mainMsg[1]);
+                    if(!(/^r$/i.test(mainMsg[2])))
+                        rply.text += nowCha.giveMoveCost(mainMsg[1]);
                 }
             } catch (error) {
                 rply.text = `输入有误。\n${error.message}`
