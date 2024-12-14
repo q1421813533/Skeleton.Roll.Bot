@@ -220,7 +220,7 @@ class chaData{
         let result="";
 
         if(this.onstage==false)
-            return "角色未在场";
+            return "";
 
         let hpStatus=this.findStatus("hp"),spStatus=this.findStatus("sp"),mpStatus=this.findStatus("mp");
         let nowStatus;
