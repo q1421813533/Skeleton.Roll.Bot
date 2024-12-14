@@ -566,6 +566,7 @@ class chaGroup{
     constructor(){
         this.members=new Array();
         this.groupSize=0;
+        this.nowRound=0;
     }
 
     findCha(chaCode){
@@ -605,13 +606,17 @@ class chaGroup{
         return nowCha;
     }
 
-    restoreAllCha(nowRound){
+    restoreAllCha(inputRound){
         let i;
         let result=""
 
-        if((nowRound!=null)&&(nowRound!=""))
-            result+="第 "+nowRound+" 轮"+"\n\n";
-
+        if((inputRound!=null)&&(inputRound=="start"))
+            this.nowRound=1;
+        else
+            this.nowRound++;
+        
+        result+="第 "+this.nowRound+" 轮"+"\n\n";
+        
         for(i=0;i<this.groupSize;i++)
         {
             result+=this.members[i].restoreSPandMP();
