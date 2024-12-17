@@ -384,7 +384,7 @@ class chaData{
                 tempStr = infoStr[i].split("=");
                 if((tempStr[0]!="sp")&&(tempStr[0]!="mp")) {
                     nowSkill = this.findSkill(tempStr[0]);
-                    if ((nowSkill != null) && (/^\d+$/.test(tempStr[1])) && (parseInt(tempStr[1]) < parseInt(nowSkill.value)))
+                    if ((nowSkill != null) && (/^\d+$/.test(tempStr[1])))
                         nowSkill.downVal = "" + parseInt(tempStr[1]);
                     else if (nowSkill != null)
                         nowSkill.downVal = "-1";
@@ -396,7 +396,7 @@ class chaData{
                             nowSkill=this.skill[j];
                         else if((this.skill[j].type==normalSkillType)&&(tempStr[0]=="sp")&&(this.skill[j].code!="zn")&&(this.skill[j].code!="tz"))
                             nowSkill=this.skill[j];
-                        if ((nowSkill != null) && (/^\d+$/.test(tempStr[1])) && (parseInt(tempStr[1]) < parseInt(nowSkill.value)))
+                        if ((nowSkill != null) && (/^\d+$/.test(tempStr[1])))
                             nowSkill.downVal = "" + parseInt(tempStr[1]);
                         else if (nowSkill != null)
                             nowSkill.downVal = "-1";
