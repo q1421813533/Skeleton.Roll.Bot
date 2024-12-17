@@ -358,7 +358,7 @@ class chaData{
                 moveType="其他";
                 break;
             case "r":
-                moveType="重新";
+                moveType="特殊";
                 break;
             default:
                 break;
@@ -387,7 +387,7 @@ class chaData{
                     if ((nowSkill != null) && (/^\d+$/.test(tempStr[1])) && (parseInt(tempStr[1]) < parseInt(nowSkill.value)))
                         nowSkill.downVal = "" + parseInt(tempStr[1]);
                     else if (nowSkill != null)
-                        nowSkill.downVal = nowSkill.value;
+                        nowSkill.downVal = "-1";
                 }
                 else {
                     for(j=0;j<this.skillNum;j++){
@@ -399,7 +399,7 @@ class chaData{
                         if ((nowSkill != null) && (/^\d+$/.test(tempStr[1])) && (parseInt(tempStr[1]) < parseInt(nowSkill.value)))
                             nowSkill.downVal = "" + parseInt(tempStr[1]);
                         else if (nowSkill != null)
-                            nowSkill.downVal = nowSkill.value;
+                            nowSkill.downVal = "-1";
                     }
                 }
             }
@@ -419,7 +419,7 @@ class chaData{
                     if((this.skill[j].type==magicSkillType)&&(mpStatus!=null)&&(parseInt(mpStatus.value)<parseInt(mpStatus.limit))&&(parseInt(this.skill[j].value)>parseInt(mpStatus.value)))
                         this.skill[j].tempVal=mpStatus.value;
 
-                    if(parseInt(this.skill[j].tempVal)>parseInt(this.skill[j].downVal))
+                    if(parseInt(this.skill[j].downVal)!=-1)
                         this.skill[j].tempVal=this.skill[j].downVal;
 
                     if(isFirstSkill==true)
@@ -433,7 +433,7 @@ class chaData{
                         skillValueStr=skillValueStr.replaceAll(this.skill[j].code,halfSkillValue);
                     }
 
-                    this.skill[j].downVal=this.skill[j].value;
+                    this.skill[j].downVal=-1;
                 }
         }
         return formerSign+skillValueStr;
