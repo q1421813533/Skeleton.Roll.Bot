@@ -25,7 +25,7 @@ class chaSkill{
         this.value=skillValue;
         this.type=skillType;
         this.tempVal=0;
-        this.downVal=skillValue;
+        this.downVal="-100";
     }
 }
 
@@ -387,7 +387,7 @@ class chaData{
                     if ((nowSkill != null) && (/^\d+$/.test(tempStr[1])))
                         nowSkill.downVal = "" + parseInt(tempStr[1]);
                     else if (nowSkill != null)
-                        nowSkill.downVal = "-1";
+                        nowSkill.downVal = "-100";
                 }
                 else {
                     for(j=0;j<this.skillNum;j++){
@@ -399,7 +399,7 @@ class chaData{
                         if ((nowSkill != null) && (/^\d+$/.test(tempStr[1])))
                             nowSkill.downVal = "" + parseInt(tempStr[1]);
                         else if (nowSkill != null)
-                            nowSkill.downVal = "-1";
+                            nowSkill.downVal = "-100";
                     }
                 }
             }
@@ -419,7 +419,7 @@ class chaData{
                     if((this.skill[j].type==magicSkillType)&&(mpStatus!=null)&&(parseInt(mpStatus.value)<parseInt(mpStatus.limit))&&(parseInt(this.skill[j].value)>parseInt(mpStatus.value)))
                         this.skill[j].tempVal=mpStatus.value;
 
-                    if(parseInt(this.skill[j].downVal)!=-1)
+                    if(parseInt(this.skill[j].downVal)!=-100)
                         this.skill[j].tempVal=this.skill[j].downVal;
 
                     if(isFirstSkill==true)
@@ -433,7 +433,7 @@ class chaData{
                         skillValueStr=skillValueStr.replaceAll(this.skill[j].code,halfSkillValue);
                     }
 
-                    this.skill[j].downVal=-1;
+                    this.skill[j].downVal="-100";
                 }
         }
         return formerSign+skillValueStr;
