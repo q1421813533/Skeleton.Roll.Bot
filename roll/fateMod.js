@@ -36,7 +36,7 @@ const prefixs = function () {
     //如前面是 /^1$/ig, 後面是/^1D100$/ig, 即 prefixs 變成 1 1D100 
     ///^(?=.*he)(?!.*da).*$/ig
     return [{
-        first: /(^[.]sln$)|(^[.]xx$)|(^[.]ay$)|(^[.]ln$)|(^[.]px$)|(^[.]boss$)|(^[.]round$)|(^[.]gm)/ig,
+        first: /(^[.]sln$)|(^[.]xx$)|(^[.]ay$)|(^[.]ln$)|(^[.]px$)|(^[.]lh$)|(^[.]boss$)|(^[.]round$)|(^[.]gm)/ig,
         second: null
     }]
 }
