@@ -325,7 +325,9 @@ class chaData{
 
         if(result=="")
             result="输入有误。"
-
+        else
+            result=result.substring(0,result.length-1);
+        
         return result;
     }
 
