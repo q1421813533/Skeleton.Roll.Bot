@@ -196,9 +196,7 @@ class chaData{
     }
 
     restoreAllStatus(){
-        if(this.onstage==false)
-            return "角色未在场";
-
+        
         let hpStatus=this.findStatus("hp"),spStatus=this.findStatus("sp"),mpStatus=this.findStatus("mp");
         if(hpStatus!=null)
         {
@@ -259,7 +257,7 @@ class chaData{
         }
 
         if(result!="")
-            result=this.name+":\n"+result+"\n";
+            result=this.name+"\n"+result+"\n";
 
         return result;
     }
@@ -282,6 +280,16 @@ class chaData{
             }
             else
             {
+                if((infoStr[i]=="name")&&(infoStr[i+1]!=null)){
+                    this.setName(infoStr[i+1]);
+                    result=infoStr[i+1]+" , "+result;
+                }
+
+                if(infoStr[i]=="set"){
+                    this.restoreAllStatus();
+                    result="设置完成 ： "+result;
+                }
+                
                 nowAttr=this.findStatus(infoStr[i]);
                 if(nowAttr!=null)
                     nowType="status";
@@ -307,10 +315,10 @@ class chaData{
                     {
                         if((nowAttr.hasLimit==true)&&(parseInt(nowAttr.value)>parseInt(nowAttr.limit)))
                             nowAttr.value=""+nowAttr.limit;
-                        result+=nowAttr.name+": "+nowAttr.value+"/"+nowAttr.limit+"\n";
+                        result+=nowAttr.name+": "+nowAttr.value+"/"+nowAttr.limit+" , ";
                     }
                     else if(nowType=="skill")
-                        result+=nowAttr.name+": "+nowAttr.value+"\n";
+                        result+=nowAttr.name+": "+nowAttr.value+" , ";
                 }
             }
         }
