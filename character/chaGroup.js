@@ -16,6 +16,21 @@ class chaStatus{
         if(statusCode=="fate")
             this.hasLimit=false;
     }
+
+    showValue(){
+        return this.name+"-"+this.code+"-"+this.value+"-"+this.limit+"-"+String(this.hasCost)+"-"+String(this.hasLimit);
+    }
+
+    setValue(valueStr){
+        let tempStr=valueStr.split("-");
+        this.name=tempStr[0];
+        this.code=tempStr[1];
+        this.value=tempStr[2];
+        this.limit=tempStr[3];
+        this.hasCost=Boolean(tempStr[4]);
+        this.hasLimit=Boolean(tempStr[5]);
+    }
+
 }
 
 class chaSkill{
@@ -26,6 +41,20 @@ class chaSkill{
         this.type=skillType;
         this.tempVal=0;
         this.downVal="-100";
+    }
+
+    showValue(){
+        return this.name+"-"+this.code+"-"+this.value+"-"+this.type+"-"+this.tempVal+"-"+this.downVal;
+    }
+
+    setValue(valueStr){
+        let tempStr=valueStr.split("-");
+        this.name=tempStr[0];
+        this.code=tempStr[1];
+        this.value=tempStr[2];
+        this.type=tempStr[3];
+        this.tempVal=parseInt(tempStr[4]);
+        this.downVal=tempStr[5];
     }
 }
 
@@ -57,6 +86,54 @@ class chaData{
                 this.skillNum++;
             }
         }
+    }
+
+    showValue(){
+        let i;
+
+        let result=this.name+"-"+this.code+"-"+this.statusNum+"-"+this.skillNum+"-"+this.faction+"-"+String(this.onstage);
+        result+="#";
+
+        for(i=0;i<this.statusNum;i++) {
+            result += this.status[i].showValue();
+            if(i+1<this.statusNum)
+                result += "$";
+        }
+        result+="#";
+
+        for(i=0;i<this.skillNum;i++){
+            result += "$" + this.skill[i].showValue()
+            if(i+1<this.skillNum)
+                result += "$";
+        }
+
+        return result;
+
+    }
+
+    setValue(valueStr){
+
+        let statusStartPos,skillStartPos,tempStr,baseStr;
+        let i;
+
+        baseStr=valueStr.split("#");
+
+        tempStr=baseStr[0].split("-");
+        this.name=tempStr[0];
+        this.code=tempStr[1];
+        this.statusNum=parseInt(tempStr[2]);
+        this.skillNum=parseInt(tempStr[3]);
+        this.faction=tempStr[4];
+        this.onstage=Boolean(tempStr[5]);
+
+        tempStr=baseStr[1].split("$");
+        for(i=0;i<tempStr.length;i++)
+            this.status[i].setValue(tempStr[i]);
+
+        tempStr=baseStr[2].split("$");
+        for(i=0;i<tempStr.length;i++)
+            this.skill[i].setValue(tempStr[i]);
+
     }
 
     findStatus(statusCode){
@@ -213,7 +290,7 @@ class chaData{
         return "恢复完成"
     }
 
-    restoreSPandMP(){
+    restoreSPandMP(roundValue){
 
         let result="";
 
@@ -230,7 +307,7 @@ class chaData{
         }
 
 
-        if((spStatus!=null)&&(spStatus.hasCost==false)&&(parseInt(spStatus.value)<parseInt(spStatus.limit)))
+        if((roundValue>1)&&(spStatus!=null)&&(spStatus.hasCost==false)&&(parseInt(spStatus.value)<parseInt(spStatus.limit)))
         {
             nowStatus=parseInt(spStatus.value)+1;
             result+="精力： "+spStatus.value+" → "+nowStatus+"/"+spStatus.limit+"\n";
@@ -243,7 +320,7 @@ class chaData{
             spStatus.hasCost=false;
         }
 
-        if((mpStatus!=null)&&(mpStatus.hasCost==false)&&(parseInt(mpStatus.value)<parseInt(mpStatus.limit)))
+        if((roundValue>1)&&(mpStatus!=null)&&(mpStatus.hasCost==false)&&(parseInt(mpStatus.value)<parseInt(mpStatus.limit)))
         {
             nowStatus=parseInt(mpStatus.value)+1;
             result+="魔力： "+mpStatus.value+" → "+nowStatus+"/"+mpStatus.limit+"\n";
@@ -315,10 +392,10 @@ class chaData{
                     {
                         if((nowAttr.hasLimit==true)&&(parseInt(nowAttr.value)>parseInt(nowAttr.limit)))
                             nowAttr.value=""+nowAttr.limit;
-                        result+=nowAttr.name+": "+nowAttr.value+"/"+nowAttr.limit+" , ";
+                        result+=nowAttr.name+": "+nowAttr.value+"/"+nowAttr.limit+"  ";
                     }
                     else if(nowType=="skill")
-                        result+=nowAttr.name+": "+nowAttr.value+" , ";
+                        result+=nowAttr.name+": "+nowAttr.value+"  ";
                 }
             }
         }
@@ -470,6 +547,10 @@ class chaData{
                 if(tempStr[i]==this.skill[j].code)
                 {
                     moveSkillLevel=parseInt(this.skill[j].tempVal);
+
+                    if((i!=0)&&(moveSkillLevel>0)&&(moveSkillLevel%2!=0))
+                        moveSkillLevel=moveSkillLevel-1;
+
                     if((this.skill[j].type==normalSkillType)&&(spStatus!=null)&&(spSKill!=null))
                     {
                         result+="\n精力消耗";
@@ -579,6 +660,40 @@ class chaGroup{
         this.nowRound=0;
     }
 
+    showValue(){
+        let i;
+        let result=""+this.groupSize+"-"+this.nowRound;
+        result+="%";
+
+        for(i=0;i<this.groupSize;i++) {
+            result += this.members[i].showValue();
+            if(i+1<this.groupSize)
+                result+="^";
+        }
+
+        return result;
+    }
+
+    setValue(valueStr){
+        let baseStr,tempStr;
+        let i;
+
+        if((valueStr.indexOf("%")==-1)||(valueStr.indexOf("^")==-1))
+            return "读取失败。";
+
+        baseStr=valueStr.split("%");
+        tempStr=baseStr[0].split("-");
+        this.groupSize=parseInt(tempStr[0]);
+        this.nowRound=parseInt(tempStr[1]);
+
+        tempStr=baseStr[1].split("^");
+        for(i=0;i<tempStr.length;i++)
+            this.members[i].setValue(tempStr[i]);
+
+        return "读取成功。"
+
+    }
+
     findCha(chaCode){
         let i;
         for(i=0;i<this.groupSize;i++)
@@ -629,7 +744,7 @@ class chaGroup{
         
         for(i=0;i<this.groupSize;i++)
         {
-            result+=this.members[i].restoreSPandMP();
+            result+=this.members[i].restoreSPandMP(roundValue);
         }
 
         if(result=="")
