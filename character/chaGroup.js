@@ -672,7 +672,7 @@ class chaGroup{
         for(i=0;i<this.groupSize;i++) {
             result += this.members[i].showValue();
             if(i+1<this.groupSize)
-                result+="^";
+                result+="\n";
         }
 
         return result;
@@ -690,7 +690,7 @@ class chaGroup{
         this.groupSize=parseInt(tempStr[0]);
         this.nowRound=parseInt(tempStr[1]);
 
-        tempStr=baseStr[1].split("^");
+        tempStr=baseStr[1].split("\n");
         for(i=0;i<tempStr.length;i++)
             this.members[i].setValue(tempStr[i]);
 
