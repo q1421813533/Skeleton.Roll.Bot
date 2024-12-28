@@ -18,11 +18,11 @@ class chaStatus{
     }
 
     showValue(){
-        return this.name+"-"+this.code+"-"+this.value+"-"+this.limit+"-"+String(this.hasCost)+"-"+String(this.hasLimit);
+        return this.name+"~"+this.code+"~"+this.value+"~"+this.limit+"~"+String(this.hasCost)+"~"+String(this.hasLimit);
     }
 
     setValue(valueStr){
-        let tempStr=valueStr.split("-");
+        let tempStr=valueStr.split("~");
         this.name=tempStr[0];
         this.code=tempStr[1];
         this.value=tempStr[2];
@@ -44,11 +44,11 @@ class chaSkill{
     }
 
     showValue(){
-        return this.name+"-"+this.code+"-"+this.value+"-"+this.type+"-"+this.tempVal+"-"+this.downVal;
+        return this.name+"~"+this.code+"~"+this.value+"~"+this.type+"~"+this.tempVal+"~"+this.downVal;
     }
 
     setValue(valueStr){
-        let tempStr=valueStr.split("-");
+        let tempStr=valueStr.split("~");
         this.name=tempStr[0];
         this.code=tempStr[1];
         this.value=tempStr[2];
@@ -91,7 +91,7 @@ class chaData{
     showValue(){
         let i;
 
-        let result=this.name+"-"+this.code+"-"+this.statusNum+"-"+this.skillNum+"-"+this.faction+"-"+String(this.onstage);
+        let result=this.name+"~"+this.code+"~"+this.statusNum+"~"+this.skillNum+"~"+this.faction+"~"+String(this.onstage);
         result+="#";
 
         for(i=0;i<this.statusNum;i++) {
@@ -102,7 +102,7 @@ class chaData{
         result+="#";
 
         for(i=0;i<this.skillNum;i++){
-            result += "$" + this.skill[i].showValue()
+            result += this.skill[i].showValue()
             if(i+1<this.skillNum)
                 result += "$";
         }
@@ -116,9 +116,12 @@ class chaData{
         let statusStartPos,skillStartPos,tempStr,baseStr;
         let i;
 
+        if((valueStr.indexOf("#")==-1)||(valueStr.indexOf("$")==-1))
+            return "读取失败。"
+
         baseStr=valueStr.split("#");
 
-        tempStr=baseStr[0].split("-");
+        tempStr=baseStr[0].split("~");
         this.name=tempStr[0];
         this.code=tempStr[1];
         this.statusNum=parseInt(tempStr[2]);
@@ -133,7 +136,8 @@ class chaData{
         tempStr=baseStr[2].split("$");
         for(i=0;i<tempStr.length;i++)
             this.skill[i].setValue(tempStr[i]);
-
+        
+        return "读取成功。"
     }
 
     findStatus(statusCode){
@@ -662,7 +666,7 @@ class chaGroup{
 
     showValue(){
         let i;
-        let result=""+this.groupSize+"-"+this.nowRound;
+        let result=""+this.groupSize+"~"+this.nowRound;
         result+="%";
 
         for(i=0;i<this.groupSize;i++) {
@@ -682,7 +686,7 @@ class chaGroup{
             return "读取失败。";
 
         baseStr=valueStr.split("%");
-        tempStr=baseStr[0].split("-");
+        tempStr=baseStr[0].split("~");
         this.groupSize=parseInt(tempStr[0]);
         this.nowRound=parseInt(tempStr[1]);
 
