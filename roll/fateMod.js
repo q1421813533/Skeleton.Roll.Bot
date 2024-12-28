@@ -136,14 +136,20 @@ const rollDiceCommand = async function ({
             else
                 rply.text = "角色不存在。";
             return rply;
-        case /^save$/i.test(mainMsg[1]):
+        case /^saveall$/i.test(mainMsg[1]):
             rply.text = "";
             rply.text += characterGroup.showValue();
             if(rply.text=="")
                 rply.text = "保存失败。"
             return rply;
-        case /^load$/i.test(mainMsg[1]):
+        case /^loadall$/i.test(mainMsg[1]):
             rply.text = characterGroup.setValue(mainMsg[2]);
+            return rply;
+        case /^load$/i.test(mainMsg[1]):
+            if((nowCha!=null)&&(mainMsg[2]!=null))
+                rply.text = nowCha.setValue(mainMsg[2]);
+            else
+                rply.text = "角色不存在。";
             return rply;
         default: {
             rply.text = nowCha.adjustAttrValue(mainMsg);
