@@ -4,6 +4,7 @@ let variables = {};
 const mathjs = require('mathjs');
 
 const chaGroup = require('../character/chaGroup');
+const {getReplyContent} = require("../modules/discord/handleMessage");
 let characterGroup = new chaGroup();
 characterGroup.addCha("塞莲娜","sln","gm",false,["生命,hp,16,基础","精力,sp,5,基础","魔力,mp,5,基础","命运点,fate,3,基础","洞察,dc,1,世俗","灵敏,lm,2,世俗","潜行,qx,0,世俗","交涉,js,4,世俗","权威,qw,3,世俗","执念,zn,4,世俗","体质,tz,3,世俗","战斗,zd,4,世俗","学识,xs,2,世俗","巧艺,qy,1,世俗","时间,sj,0,超凡","命运,my,4,超凡","空间,kj,0,超凡","心灵,xl,2,超凡","物质,wz,0,超凡","死亡,sw,5,超凡","力能,ln,3,超凡","根源,gy,3,超凡","生命,sm,0,超凡","精魂,jh,0,超凡"]);
 characterGroup.addCha("晓轩","xx","pc",true,["生命,hp,18,基础","精力,sp,6,基础","魔力,mp,5,基础","命运点,fate,1,基础","体质,tz,4,世俗","战斗,zd,0,世俗","洞察,dc,1,世俗","灵敏,lm,0,世俗","潜行,qx,0,世俗","执念,zn,4,世俗","学识,xs,6,世俗","巧艺,qy,3,世俗","交涉,js,2,世俗","权威,qw,0,世俗","时间,sj,4,超凡","命运,my,0,超凡","空间,kj,4,超凡","心灵,xl,0,超凡","物质,wz,0,超凡","死亡,sw,0,超凡","力能,ln,0,超凡","根源,gy,5,超凡","生命,sm,0,超凡","精魂,jh,0,超凡","命定之剪,md,3,特殊"]);
@@ -134,6 +135,15 @@ const rollDiceCommand = async function ({
                 rply.text = nowCha.setName(mainMsg[2]);
             else
                 rply.text = "角色不存在。";
+            return rply;
+        case /^save$/i.test(mainMsg[1]):
+            rply.text = "";
+            rply.text += characterGroup.showValue();
+            if(rply.text=="")
+                rply.text = "保存失败。"
+            return rply;
+        case /^load$/i.test(mainMsg[1]):
+            rply.text = characterGroup.setValue(mainMsg[2]);
             return rply;
         default: {
             rply.text = nowCha.adjustAttrValue(mainMsg);
