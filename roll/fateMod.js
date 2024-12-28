@@ -145,6 +145,12 @@ const rollDiceCommand = async function ({
         case /^loadall$/i.test(mainMsg[1]):
             rply.text = characterGroup.setValue(mainMsg[2]);
             return rply;
+        case /^save$/i.test(mainMsg[1]):
+            if(nowCha!=null)
+                rply.text = nowCha.showValue();
+            else
+                rply.text = "角色不存在。";
+            return rply;
         case /^load$/i.test(mainMsg[1]):
             if((nowCha!=null)&&(mainMsg[2]!=null))
                 rply.text = nowCha.setValue(mainMsg[2]);
