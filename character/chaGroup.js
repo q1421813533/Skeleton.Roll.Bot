@@ -748,7 +748,7 @@ class chaGroup{
         
         for(i=0;i<this.groupSize;i++)
         {
-            result+=this.members[i].restoreSPandMP(roundValue);
+            result+=this.members[i].restoreSPandMP(this.nowRound);
         }
 
         if(result=="")
