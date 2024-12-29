@@ -591,6 +591,12 @@ class chaData{
                         costStatus.value=costStatusNewValue;
                         costStatus.hasCost=true;
                     }
+                    else {
+                        if(costStatus.code=="sp")
+                            result += "SP: "+ costStatus.value + "\n";
+                        else
+                            result += "MP: "+ costStatus.value + "\n";
+                    }
                 }
         }
 
